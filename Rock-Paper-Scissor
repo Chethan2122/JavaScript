@@ -1,0 +1,20 @@
+function rps(p1,p2){
+    if(p1==='rock' && p2==='rock') return 'Draw';
+    else if(p1==='rock' && p2==='paper') return 'you lost';
+    else if(p1==='rock' && p2==='scissor') return 'you won';
+    else if(p1==='paper' && p2==='paper') return 'Draw';
+    else if(p1==='paper' && p2==='rock') return 'you won';
+    else if(p1==='paper' && p2==='scissor') return 'you lost';
+    else if(p1==='scissor' && p2==='scissor') return 'Draw';
+    else if(p1==='scissor' && p2==='paper') return 'you won';
+    else if(p1==='scissor' && p2==='rock') return 'you lost';
+}
+
+
+var p1=prompt("enter rock or paper or scissor :");
+var arr=['rock','paper','scissor'];
+var p2=Math.floor(Math.random(arr)*3);
+var str=arr[p2];
+console.log("you have selected : "+p1);
+console.log("Computer selected : "+str);
+alert(rps(p1,str));
