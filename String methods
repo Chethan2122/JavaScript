@@ -1,0 +1,39 @@
+let para='Paragraphs are medium-sized units of writing, longer than sentences, but shorter than sections, chapters, or entire works. Because they connect the "small" ideas of individual sentences to a "bigger" idea, paragraph structure is essential to any writing for organization, flow, and comprehension. Students have a lot of questions when it comes to writing a paragraph: How many sentences should you use? How do you transition within a paragraph? When do you end a paragraph? Etc. Below we explain everything you need to know about paragraph structure to write like an expert, including several paragraph examples.';
+sentence=para.split(".");
+console.log("Number of sentences : "+sentence.length);
+
+word=para.split(" ");
+console.log("Number of words : "+word.length);
+
+characters=para.split("");
+var sc=0;
+for(var i=0;i<para.length;i++){
+    if(characters[i]===" "){
+        sc++;
+    }
+}
+console.log("Number of characters : "+(para.length-sc));
+
+let pcount=0;
+pcount=para.match(/paragraph/gi);
+console.log("Number of occurence of *paragraph* : "+pcount.length);
+
+char=para.match(/[a-zA-Z0-9]/g);
+console.log("Number of special characters : "+(para.length-char.length-sc));
+
+reppara=para.replace(/paragraph/gi,"para");
+console.log("\nReplace paragraph by para : \n"+reppara);
+
+/*
+Slice from second sentence
+console.log("\nSlice from second sentence : \n"+para.slice(para.indexOf(".")+1));
+*/
+for(var i=0;i<para.length;i++){
+    if(characters[i]=="."){
+        var index=i;
+        break;
+    }
+}
+console.log("\nSlice from second sentence : \n"+para.slice(index+1));
+
+
