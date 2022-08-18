@@ -8,6 +8,7 @@ function rps(p1,p2){
     else if(p1==='scissor' && p2==='scissor') return 'Draw';
     else if(p1==='scissor' && p2==='paper') return 'you won';
     else if(p1==='scissor' && p2==='rock') return 'you lost';
+    else return 'please give correct input!!!';
 }
 
 
