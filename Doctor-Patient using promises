@@ -1,31 +1,26 @@
-
-
-let number=Number(prompt("enter a number"));
-for(let i=0;i<number;i++)
+let n = Number(prompt('Enter the count : '));
+let arr  = ['a','b','c','d','e','f','g','h','i','j'];
+for(var i=0;i<n;i++)
 {
-    let p=new Promise((resolve,reject) =>
+    let index = Math.floor(Math.random()*(arr.length-1));
+    let p = new Promise((resolve, reject) => 
     {
-        const random=Math.floor((Math.random()*9)+1)*1000;
-        let name_arr=['adsas','bsfdasd','csferrvf','dfdgrt','ereddf','fdferfgsd','gdfsdf','hdfegvtr','iyhtr','jdfgrtb'];
-        var index=Math.floor(Math.random()*(name_arr.length-1));
-        setTimeout(() => {               
-            resolve(name_arr[index]+" has taken " +  random/1000 +" seconds");
-        },random);
+            
+        let time = Math.floor(Math.random()*10000);
+        setTimeout(() =>
+        {
+            resolve(arr[index]+' has taken '+time+' milliseconds');
+        },time);
+    });
         
-        
-    })
-      
-      
-      
-       
-async function Patient_time()
-{
-    let time=await p;
-    console.log(time);
+    async function func()
+    {
+        let result = await p;
+        console.log(result);
+    }
+    await func();
+    arr.remove(index);
+    
     
 }
-await Patient_time();
-
-}
-
 
