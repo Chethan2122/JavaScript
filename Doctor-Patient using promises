@@ -1,15 +1,17 @@
+
 let n = Number(prompt('Enter the count : '));
 let arr  = ['a','b','c','d','e','f','g','h','i','j'];
 for(var i=0;i<n;i++)
 {
     let index = Math.floor(Math.random()*(arr.length-1));
+    console.log(arr[index]+' entered');
     let p = new Promise((resolve, reject) => 
     {
             
         let time = Math.floor(Math.random()*10000);
         setTimeout(() =>
         {
-            resolve(arr[index]+' has taken '+time+' milliseconds');
+            resolve(arr[index]+' came out after '+time+' milliseconds'+'\n');
         },time);
     });
         
@@ -23,4 +25,3 @@ for(var i=0;i<n;i++)
     
     
 }
-
