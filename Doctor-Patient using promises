@@ -1,6 +1,9 @@
-
 let n = Number(prompt('Enter the count : '));
-let arr  = ['a','b','c','d','e','f','g','h','i','j'];
+let arr =[];
+for(var i=0;i<n;i++){
+    let name = prompt('enter Patient '+(i+1)+' name : ');
+    arr.push(name);
+}
 for(var i=0;i<n;i++)
 {
     let index = Math.floor(Math.random()*(arr.length-1));
@@ -11,7 +14,7 @@ for(var i=0;i<n;i++)
         let time = Math.floor(Math.random()*10000);
         setTimeout(() =>
         {
-            resolve(arr[index]+' came out after '+time+' milliseconds'+'\n');
+            resolve(arr[index]+' has taken '+time+' milliseconds'+'\n');
         },time);
     });
         
@@ -21,7 +24,5 @@ for(var i=0;i<n;i++)
         console.log(result);
     }
     await func();
-    arr.remove(index);
-    
-    
+    arr.splice(index,1);
 }
