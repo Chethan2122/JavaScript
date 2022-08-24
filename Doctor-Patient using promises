@@ -1,0 +1,31 @@
+
+
+let number=Number(prompt("enter a number"));
+for(let i=0;i<number;i++)
+{
+    let p=new Promise((resolve,reject) =>
+    {
+        const random=Math.floor((Math.random()*9)+1)*1000;
+        let name_arr=['adsas','bsfdasd','csferrvf','dfdgrt','ereddf','fdferfgsd','gdfsdf','hdfegvtr','iyhtr','jdfgrtb'];
+        var index=Math.floor(Math.random()*(name_arr.length-1));
+        setTimeout(() => {               
+            resolve(name_arr[index]+" has taken " +  random/1000 +" seconds");
+        },random);
+        
+        
+    })
+      
+      
+      
+       
+async function Patient_time()
+{
+    let time=await p;
+    console.log(time);
+    
+}
+await Patient_time();
+
+}
+
+
