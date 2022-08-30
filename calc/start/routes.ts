@@ -20,4 +20,4 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('all', 'ProjectsController.all')
+Route.post('all', 'ProjectsController.all').middleware('Project')
