@@ -21,7 +21,8 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('all', 'ProjectsController.all')//.middleware('Project')
-Route.post('create', 'UsersController.create')
+Route.post('/create', 'UsersController.create')
 Route.get('read', 'UsersController.read')
 Route.post('update', 'UsersController.update')
 Route.post('delete', 'UsersController.delete')
+Route.get('join','UsersController.join')
