@@ -24,8 +24,9 @@ export default class ValidationValidator {
    *    ```
    */
   public schema = schema.create({
-    "a" : schema.number(),
-    "b" : schema.number()
+    "id" : schema.number(),
+    "empname" : schema.string(),
+    "role" : schema.string()
   })
 
   /**

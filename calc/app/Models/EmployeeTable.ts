@@ -9,3 +9,4 @@ export default class Employee extends BaseModel {
   @column()
   public role: string
 }
+// module.exports='Employee_table'
