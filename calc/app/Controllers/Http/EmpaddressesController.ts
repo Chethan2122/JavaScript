@@ -36,8 +36,8 @@ export default class EmployeeTablesController {
     }
     public async remove({request}:HttpContextContract){
         try{
-            const val = await request.validate(AddressValidator)
-            const name1 = await Empaddress.findOrFail(val['id'])
+            //const val = await request.validate(AddressValidator)
+            const name1 = await Empaddress.findOrFail(request.input('id'))
             await name1.delete()
             return Empaddress.all()
         }
@@ -57,17 +57,7 @@ export default class EmployeeTablesController {
             return 'enter corret details.'
         }
     }
-    public async readbyid({request}:HttpContextContract){
-        try{
-            const val = await request.validate(AddressValidator)
-            const readid=await Database.from('empaddresses').where('id', val['id'])
-        return readid
-        }
-        catch{
-            return 'enter correct details.'
-        }
-    }
-    public async search({request}:HttpContextContract){
+    public async searchbyid({request}:HttpContextContract){
         try{
             //const val = await request.validate(AddressValidator)
             const tableJoin = await Database.from("employees")
@@ -75,6 +65,20 @@ export default class EmployeeTablesController {
             .select("employees.*")
             .select("empaddresses.*")
             .where('empaddresses.id', '=', request.input('id'))
+            return tableJoin
+        }
+        catch{
+            return 'enter correct details.'
+        }
+    }
+    public async searchbyname({request}:HttpContextContract){
+        try{
+            //const val = await request.validate(AddressValidator)
+            const tableJoin = await Database.from("employees")
+            .join('empaddresses','employees.empname', "=", 'empaddresses.name')
+            .select("employees.*")
+            .select("empaddresses.city")
+            .where('empaddresses.name', '=', request.input('name'))
             return tableJoin
         }
         catch{
