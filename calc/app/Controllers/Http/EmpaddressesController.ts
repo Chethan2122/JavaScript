@@ -5,36 +5,80 @@ import AddressValidator from 'App/Validators/EmpaddressValidator'
 //import students from 'App/Models/Student'
 export default class EmployeeTablesController {
     public async add({request}:HttpContextContract){
+        try{
         const payload = await request.validate(AddressValidator)
         const table1 = new Empaddress()
         table1.id=payload['id']
         table1.name=payload['name']
-        table1.city=payload['role']
+        table1.city=payload['city']
         await table1.save()
-
         return Empaddress.all()
+        }
+        catch{
+            return 'enter corret details.'
+        }
     }
     public async know(){
         return await Empaddress.all()
     }
     public async upgrade({request}:HttpContextContract){
-        const val = await request.validate(AddressValidator)
-        const name1 = await Empaddress.findOrFail(request.input('id'))
-        name1.name = val['name']
-        name1.city = val['city']
-        await name1.save()
-        return Empaddress.all()
+        try{
+            const val = await request.validate(AddressValidator)
+            const name1 = await Empaddress.findOrFail(val['id'])
+            name1.name = val['name']
+            name1.city = val['city']
+            await name1.save()
+            return Empaddress.all()
+        }
+        catch{
+            return 'enter correct details.'
+        }
     }
-    public async remove(){
-        const name1 = await Empaddress.findByOrFail('id',3)
-        await name1.delete()
-        return Empaddress.all()
+    public async remove({request}:HttpContextContract){
+        try{
+            const val = await request.validate(AddressValidator)
+            const name1 = await Empaddress.findOrFail(val['id'])
+            await name1.delete()
+            return Empaddress.all()
+        }
+        catch{
+            return 'enter corret details.'
+        }
     }
     public async combine(){
+        try{
         const tableJoin = await Database.from("employees")
-        .join('empaddresses','employees.empname', "=", 'empaddresses.name')
+        .join('empaddresses','employees.id', "=", 'empaddresses.id')
         .select("employees.*")
-        .select("empaddresses.city")
-       return tableJoin
+        .select("empaddresses.*")
+        return tableJoin
+        }
+        catch{
+            return 'enter corret details.'
+        }
+    }
+    public async readbyid({request}:HttpContextContract){
+        try{
+            const val = await request.validate(AddressValidator)
+            const readid=await Database.from('empaddresses').where('id', val['id'])
+        return readid
+        }
+        catch{
+            return 'enter correct details.'
+        }
+    }
+    public async search({request}:HttpContextContract){
+        try{
+            //const val = await request.validate(AddressValidator)
+            const tableJoin = await Database.from("employees")
+            .join('empaddresses','employees.id', "=", 'empaddresses.id')
+            .select("employees.*")
+            .select("empaddresses.*")
+            .where('empaddresses.id', '=', request.input('id'))
+            return tableJoin
+        }
+        catch{
+            return 'enter correct details.'
+        }
     }
 }
