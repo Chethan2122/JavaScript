@@ -80,7 +80,7 @@ export default {
        name: '',
        nameRules: [
          name=>!!name||'Name is required',
-         v => /[a-zA-Z]/.test(v) || 'Name must be valid'
+         v => /^[a-zA-Z]+$/.test(v) || 'Name must be valid'
        ],
        email: '',
        emailRules: [
@@ -90,7 +90,7 @@ export default {
        mobilenumber: '',
        numberRules: [
          mobilenumber=>!!mobilenumber||'Number is required',
-         v => /[0-9]/.test(v) || 'Number must be valid'
+         v => /^[0-9]+$/.test(v) || 'Number must be valid'
        ],
        select: null,
        location: [
