@@ -59,7 +59,7 @@
        required
      ></v-checkbox>
      <v-text-field
-       v-model="others"
+       v-model="otherinterests"
        label="Mention if others"
      ></v-text-field>
    
@@ -113,10 +113,13 @@ export default {
            name : this.name,
            email : this.email,
            mobilenumber : this.mobilenumber,
+           select: this.select,
            gender :this.gender,
            Interests: this.Interests,
-           select: this.select,          }
+           otherinterests : this.otherinterests         
+          }
          console.log(JSON.stringify(arr))
-       }    }
+       }    
+      }
 }
 </script>
