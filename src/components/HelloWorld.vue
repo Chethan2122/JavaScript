@@ -49,13 +49,13 @@
      value="other"
      ></v-radio>
 </v-radio-group>
-   <h2>Interests</h2>
+   <h3>Interests</h3>
       <v-checkbox
      v-model="Interests"
-       v-for="(cho) in choice"
-       :key="cho.id"
-       :label="cho.name"
-       :value="cho.name"
+       v-for="(interest) in choice"
+       :key="interest.id"
+       :label="interest.name"
+       :value="interest.name"
        required
      ></v-checkbox>
      <v-text-field
