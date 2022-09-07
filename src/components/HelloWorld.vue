@@ -113,7 +113,7 @@ export default {
            name : this.name,
            email : this.email,
            gender :this.gender,
-           Hobbies: this.Hobbies,
+           Interests: this.Interests,
            select: this.select,          }
          console.log(JSON.stringify(arr))
        }    }
