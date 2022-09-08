@@ -7,7 +7,7 @@
      lazy-validation
    >
    <v-dialog
-   v-model = "Add"
+   v-model = "Add" width="600"
   >
   
   <template v-slot:activator="{ on,attr }">
