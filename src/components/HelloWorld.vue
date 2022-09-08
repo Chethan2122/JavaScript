@@ -81,7 +81,7 @@
        v-model="otherinterests"
        label="Mention if others"
      ></v-text-field>
-   
+      <v-btn color="blue-darken" text @click="close">cancel</v-btn>
       <v-btn
       v-if="editform"
        :disabled="!valid"
@@ -243,6 +243,11 @@ export default {
         this.editform=true
         this.resetform()
 
+      },
+      close(){
+        this.Add=false
+        this.editform=true
+        this.resetform()
       },
       reset(){
         this.name=''
