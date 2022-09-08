@@ -107,6 +107,7 @@
     <template>
     <thead>
     <tr>
+      <th>id</th>
       <th>Name</th>
       <th>Email</th>
       <th>Mobile Number</th>
@@ -120,6 +121,7 @@
     <tr
       v-for = "(item,i) in arr"
       :key="i">
+      <td>{{item.id}}</td>
       <td>{{item.name}}</td>
       <td>{{item.email}}</td>
       <td>{{item.mobilenumber}}</td>
@@ -153,6 +155,7 @@ export default {
       valform:{},
        valid: true,
        name: '',
+       id:0,
        nameRules: [
          name=>!!name||'Name is required',
          v => /^[a-zA-Z]+$/.test(v) || 'Name must be valid'
@@ -190,7 +193,9 @@ export default {
        validate () {
         const arr = this.arr
          if(this.$refs.form.validate()){
+          this.id++
           this.arr.push({
+            id : this.id,
            name : this.name,
            email : this.email,
            mobilenumber : this.mobilenumber,
