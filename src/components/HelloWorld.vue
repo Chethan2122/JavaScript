@@ -199,9 +199,12 @@ export default {
            interests: this.Interests,
            otherinterests : this.otherinterests         
           })}
+          this.resetform()
           this.Add = false
           this.$refs.form.reset()
+          
          console.log(JSON.stringify(arr))
+         this.editform=true
        },
        editrow(item){
         this.editform=false
@@ -238,6 +241,7 @@ export default {
         this.arr[test].otherinterests = this.otherinterests
         this.Add=false
         this.editform=true
+        this.resetform()
 
       },
       reset(){
@@ -246,6 +250,16 @@ export default {
         this.mobilenumber=''
         this.select=''
         this.gender='' 
+      },
+      resetform(){
+        this.name=''
+        this.email=''
+        this.mobilenumber=''
+        this.select=''
+        this.gender='' 
+        this.Interests=''
+        this.otherinterests=''
+
       },
       
   }
