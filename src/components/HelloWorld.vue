@@ -7,7 +7,7 @@
      lazy-validation
    >
    <v-dialog
-   v-model = "Add" width="600"
+   v-model = "add" width="600"
   >
   
   <template v-slot:activator="{ on,attr }">
@@ -186,7 +186,7 @@ export default {
       arr:[],
       editIndex:-1,
       removeitem:false,
-      Add:false,
+      add:false,
       editform:true
      }),
      methods: {
@@ -253,13 +253,6 @@ export default {
         this.Add=false
         this.editform=true
         this.resetform()
-      },
-      reset(){
-        this.name=''
-        this.email=''
-        this.mobilenumber=''
-        this.select=''
-        this.gender='' 
       },
       resetform(){
         this.name=''
