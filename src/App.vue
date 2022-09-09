@@ -1,18 +1,21 @@
 <template>
   
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+    <div>
+      <ApiPost/>
+     <apiIntegration />
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import apiIntegration from './components/apiIntegration.vue';
+import ApiPost from './components/apiPost.vue';
 export default {
   name: 'App',
 
   components: {
-    HelloWorld
-  },
+    apiIntegration,
+    ApiPost
+},
 
   data: () => ({
     //
