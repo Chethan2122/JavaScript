@@ -205,7 +205,7 @@ export default {
            otherinterests : this.otherinterests         
           })}
           this.resetform()
-          this.Add = false
+          this.add = false
           this.$refs.form.reset()
           
          console.log(JSON.stringify(arr))
@@ -213,7 +213,7 @@ export default {
        },
        editrow(item){
         this.editform=false
-        this.Add = true
+        this.add = true
         this.valform=item
         this.name=item.name
         this.email=item.email
@@ -244,13 +244,13 @@ export default {
         this.arr[test].gender = this.gender
         this.arr[test].interests = this.Interests
         this.arr[test].otherinterests = this.otherinterests
-        this.Add=false
+        this.add=false
         this.editform=true
         this.resetform()
 
       },
       close(){
-        this.Add=false
+        this.add=false
         this.editform=true
         this.resetform()
       },
