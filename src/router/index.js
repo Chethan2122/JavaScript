@@ -2,7 +2,6 @@ import apiIntegration from '@/components/apiIntegration.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import apiPost from '@/components/apiPost.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -10,11 +9,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
-  },
-  {
-    path: '/post',
-    name: 'apiPost',
-    component: apiPost
   },
   {
     path: '/about',
