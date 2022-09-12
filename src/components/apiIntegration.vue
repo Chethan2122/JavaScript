@@ -61,7 +61,7 @@
           v-for = "(item,i) in employees"
           :key = "i">
               <td>{{item.id}}</td>
-              <td>{{item.empname}}</td>
+              <td>{{item.empname|pipes}}</td>
               <td>{{item.role}}</td>
               <td>
                 <v-btn @click="edit(item)"><v-icon small>mdi-pencil</v-icon></v-btn>
@@ -142,7 +142,6 @@
                 empname:this.empname,
                 role:this.role                    
             })
-            this.change=true
             this.read()
             this.resetform()
             this.$refs.forms.reset()  
