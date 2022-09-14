@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-text-field v-model="searchElement" placeholder="search"></v-text-field>
-        <button @click="search()">search</button>
+        <v-btn @click="search()">search</v-btn>
     </v-container>
 </template>
 <script>
@@ -25,4 +25,3 @@ export default {
 
 }
 </script>
-    
