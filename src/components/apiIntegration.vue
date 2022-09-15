@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <div>
-        <p>Hello</p>
+        <p>Employee Table</p>
         <div>
         <searchElement :random='link' @searchFunc="searchElement"/>
     </div>
