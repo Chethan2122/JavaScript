@@ -1,8 +1,11 @@
 <template>
     <v-app>
+        <div>
         <p>Hello</p>
-        <searchElement @searchFunc="searchElement($event)"/>
-        <v-container>
+        <div>
+        <searchElement :random='link' @searchFunc="searchElement"/>
+    </div>
+        <div>
             <v-form refs="form">
                 <v-dialog width="600" v-model="formDialog">
 
@@ -27,7 +30,7 @@
                 </v-dialog>
             </v-form>
 
-        </v-container>
+        </div>
         <v-simple-table>
             <thead>
                 <tr>
@@ -51,6 +54,7 @@
                 </td>
             </tr>
         </v-simple-table>
+    </div>
     </v-app>
 </template>
 <script>
@@ -75,7 +79,9 @@ export default {
             ],
             roleRules: [
                 v => /^[a-zA-Z]+$/.test(v) || 'Role must be valid'
-            ]
+            ],
+            val:'',
+            link:'http://127.0.0.1:35811/search'
 
         }
     },
