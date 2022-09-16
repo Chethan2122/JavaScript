@@ -164,7 +164,7 @@ export default {
             this.read()
         },
         resetform() {
-            this.input = ''
+            this.input = {}
 
         },
         cancel() {
