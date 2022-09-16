@@ -11,7 +11,7 @@
 
                     <template v-slot:activator="{ on,attr }">
                         <v-flex text-right align-right>
-                            <v-btn elevation='5' color="primary" v-bind="attr" v-on="on">
+                            <v-btn @click="openform" elevation='5' color="primary" v-bind="attr" v-on="on">
                                 <v-icon>mdi-plus</v-icon>
                             </v-btn>
                         </v-flex>
@@ -128,6 +128,11 @@ export default {
                 this.employees=res
             })
         },
+        openform(){
+            this.resetform()
+            this.formDialog=true
+            this.change=true
+        },
         addItem() {
             console.log('post'),
             postInfo(this.input)
@@ -157,9 +162,11 @@ export default {
             this.read()
         },
         resetform() {
-            this.id = ''
-            this.empname = ''
-            this.role = ''
+            this.input = ''
+            // this.input.id = ''
+            // this.input.empname = ''
+            // this.input.role = ''
+
         },
         cancel() {
             this.change = true
