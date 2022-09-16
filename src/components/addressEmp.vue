@@ -13,10 +13,11 @@
                         <template v-slot:activator="{ on,attr }">
                             <v-flex text-right align-right>
                                 <v-btn elevation='5' color="primary" v-bind="attr" v-on="on">
-                                    <v-icon>mdi-plus</v-icon>
+                                    <v-icon>
+                                        mdi-plus
+                                    </v-icon>
                                 </v-btn>
                             </v-flex>
-
                         </template>
                         <v-card text class="white">
                             <v-text-field v-model="id" label="employee id"></v-text-field>

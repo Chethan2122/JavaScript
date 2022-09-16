@@ -1,8 +1,8 @@
 <template>
     <div>
         
-        <v-text-field v-model="searchElement" placeholder="search"></v-text-field>
-        <v-btn @click="search">search</v-btn>
+        <v-text-field v-model="searchElement" @keyup="search" placeholder="search"></v-text-field>
+        <!-- <v-btn @click="search">search</v-btn> -->
     </div>
 </template>
 <script>
