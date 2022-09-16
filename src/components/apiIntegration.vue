@@ -20,7 +20,7 @@
 
                         </template>
                         <v-card text class="white">
-                            <v-text-field v-model="input.id" label="employee id"></v-text-field>
+                            <v-text-field v-model="input.id" label="employee id" v-comma="input.id"></v-text-field>
                             <v-text-field v-model="input.empname" :rules="nameRules" label="Employee Name">
                             </v-text-field>
                             <v-text-field v-model="input.role" :rules="roleRules" label="Role"></v-text-field>

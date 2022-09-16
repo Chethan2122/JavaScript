@@ -18,6 +18,16 @@ Vue.filter('pipes', function (value) {
 Vue.component('searchElement',searchElement)
 
 
+Vue.directive('comma', {
+  componentUpdated(el, binding,vnode) {
+    console.log(binding.value)
+    binding.value = binding.value.replace(/\D/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    console.log(binding.value)
+    vnode.context.input.id = binding.value
+  }
+}),
+
 new Vue({
   vuetify,
   router,
