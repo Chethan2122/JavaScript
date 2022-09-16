@@ -1,7 +1,8 @@
 <template>
     <div>
-        
-        <v-text-field v-model="searchElement" @keyup="search" placeholder="search"></v-text-field>
+        <v-card width="300px" color="transparent" outlined>
+            <v-text-field v-model="searchElement" @keyup="search" placeholder="search" outlined label="search"></v-text-field>
+        </v-card>
         <!-- <v-btn @click="search">search</v-btn> -->
     </div>
 </template>
@@ -27,8 +28,8 @@ export default {
             })
         }
     },
-    props:{
-        random:String
+    props: {
+        random: String
     }
 
 }
