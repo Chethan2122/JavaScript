@@ -165,9 +165,6 @@ export default {
         },
         resetform() {
             this.input = ''
-            // this.input.id = ''
-            // this.input.empname = ''
-            // this.input.role = ''
 
         },
         cancel() {

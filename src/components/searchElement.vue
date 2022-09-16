@@ -3,7 +3,6 @@
         <v-card width="300px" color="transparent" outlined>
             <v-text-field v-model="searchElement" @keyup="search" placeholder="search" outlined label="search"></v-text-field>
         </v-card>
-        <!-- <v-btn @click="search">search</v-btn> -->
     </div>
 </template>
 <script>

@@ -22,8 +22,6 @@ async function editInfo(val){
 }
 async function deleteInfo(id){
     return await axios.delete(`${process.env.VUE_APP_SERVER_URL}/delete/${id}`)
-    // console.log(res)
-    // return res.data
 }
 
 
