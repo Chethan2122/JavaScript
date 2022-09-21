@@ -23,7 +23,7 @@ export default class CustomersController {
         }
     }
     public async read(){
-        return Hotel.all()
+        return Hotel.query().orderBy("hotelid", "asc")
     }
     public async update({request}:HttpContextContract){
         try{
@@ -108,28 +108,28 @@ export default class CustomersController {
     public async nameDesc() {
         return Hotel.query().orderBy("hotelname", "desc")
     }
-    public async doornoAsc() {
-        return Hotel.query().orderBy("doorno", "asc")
-    }
-    public async doornoDesc() {
-        return Hotel.query().orderBy("doorno", "desc")
-    }
-    public async streetAsc() {
-        return Hotel.query().orderBy("street", "asc")
-    }
-    public async streetDesc() {
-        return Hotel.query().orderBy("street", "desc")
-    }
-    public async landmarkAsc() {
-        return Hotel.query().orderBy("landmark", "asc")
-    }
-    public async lnadmarkDesc() {
-        return Hotel.query().orderBy("landmark", "desc")
-    }
-    public async areaAsc() {
-        return Hotel.query().orderBy("area", "asc")
-    }
-    public async areaDesc() {
-        return Hotel.query().orderBy("area", "desc")
-    }
+    // public async doornoAsc() {
+    //     return Hotel.query().orderBy("doorno", "asc")
+    // }
+    // public async doornoDesc() {
+    //     return Hotel.query().orderBy("doorno", "desc")
+    // }
+    // public async streetAsc() {
+    //     return Hotel.query().orderBy("street", "asc")
+    // }
+    // public async streetDesc() {
+    //     return Hotel.query().orderBy("street", "desc")
+    // }
+    // public async landmarkAsc() {
+    //     return Hotel.query().orderBy("landmark", "asc")
+    // }
+    // public async lnadmarkDesc() {
+    //     return Hotel.query().orderBy("landmark", "desc")
+    // }
+    // public async areaAsc() {
+    //     return Hotel.query().orderBy("area", "asc")
+    // }
+    // public async areaDesc() {
+    //     return Hotel.query().orderBy("area", "desc")
+    // }
 }

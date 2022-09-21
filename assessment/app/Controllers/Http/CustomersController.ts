@@ -18,7 +18,7 @@ export default class CustomersController {
         }
     }
     public async read(){
-        return Customer.all()
+        return Customer.query().orderBy("id", "asc")
     }
     public async update({request}:HttpContextContract){
         try{
