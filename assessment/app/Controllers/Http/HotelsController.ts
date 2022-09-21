@@ -93,7 +93,7 @@ export default class CustomersController {
     public async hIdAsc() {
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy("hotelid", "asc")
@@ -101,7 +101,7 @@ export default class CustomersController {
     public async hIdDesc() {
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy("hotelid", "desc")
@@ -109,7 +109,7 @@ export default class CustomersController {
     public async cIdAsc() {
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy("customerid", "asc")
@@ -117,7 +117,7 @@ export default class CustomersController {
     public async cIdDesc() {
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy("customerid", "desc")
@@ -125,7 +125,7 @@ export default class CustomersController {
     public async nameAsc() {
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy("hotelname", "asc")
@@ -133,7 +133,7 @@ export default class CustomersController {
     public async nameDesc() {
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy("hotelname", "desc")
