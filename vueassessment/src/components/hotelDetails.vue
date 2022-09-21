@@ -70,7 +70,7 @@
                     <td>{{item.hotelid}}</td>
                     <td>{{item.customerid}}</td>
                     <td>{{item.hotelname}}</td>
-                    <td>{{item.doorno+", "+item.street+', '+item.landmark+', '+item.area}}</td>
+                    <td>{{JSON.stringify(item.doorno+', '+item.street+', '+item.landmark+', '+item.area)}}</td>
                     <td>
                         <v-btn @click="edit(item)" color="transparent" fab small elevation="0">
                             <v-icon small color="green">mdi-pencil</v-icon>
@@ -102,12 +102,7 @@ export default {
                 landmark: '',
                 area: ''
             },
-                address:{
-                doorno: '',
-                street: '',
-                landmark: '',
-                area: ''
-            },
+            address:{},
             change: true,
             hotel: [],
             formDialog: false,
@@ -121,9 +116,11 @@ export default {
     },
     mounted(){
           Vue.axios.get('http://127.0.0.1:3333/hotel/read')
-          .then((res) => {this.hotel=(res.data)
-          console.log(res)
+          .then((res) => {
+            this.hotel=(res.data)
+            console.log(res)
           })
+
         },
        methods:{
         openform(){
