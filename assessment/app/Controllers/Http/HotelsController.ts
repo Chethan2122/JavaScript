@@ -108,6 +108,14 @@ export default class CustomersController {
     public async nameDesc() {
         return Hotel.query().orderBy("hotelname", "desc")
     }
+    public async join(){
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy('hotels.hotelid','asc')
+    }
     // public async doornoAsc() {
     //     return Hotel.query().orderBy("doorno", "asc")
     // }

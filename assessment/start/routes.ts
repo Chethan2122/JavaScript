@@ -15,7 +15,7 @@ Route.get('idasc', 'CustomersController.idAsc')
 Route.get('iddesc', 'CustomersController.idDesc')
 Route.get('nameasc', 'CustomersController.nameAsc')
 Route.get('namedesc', 'CustomersController.nameDesc')
-Route.get('count/:id', 'CustomersController.count')
+Route.get('count', 'CustomersController.count')
 }).prefix('customer')
 
 
@@ -32,6 +32,8 @@ Route.get('cidasc', 'HotelsController.cIdAsc')
 Route.get('ciddesc', 'HotelsController.cIdDesc')
 Route.get('nameasc', 'HotelsController.nameAsc')
 Route.get('namedesc', 'HotelsController.nameDesc')
+Route.get('join', 'HotelsController.join')
+
 // Route.get('doornoasc', 'HotelsController.doornoAsc')
 // Route.get('doornodesc', 'HotelsController.doornoDesc')
 // Route.get('streetasc', 'HotelsController.streetAsc')

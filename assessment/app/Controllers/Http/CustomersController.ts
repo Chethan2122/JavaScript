@@ -76,4 +76,14 @@ export default class CustomersController {
     public async nameDesc() {
         return Customer.query().orderBy("name", "desc")
     }
+    public async count(){
+        return await Database
+        .from('customers')
+        .leftJoin('hotels','customers.id','=','hotels.customerid')
+        .select('customers.*')
+        .groupBy('customers.id')
+        .count('hotels.customerid as totalhotels')
+        .orderBy('customers.id','asc')
+
+    }
 }
