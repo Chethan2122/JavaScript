@@ -50,12 +50,14 @@
                                 <v-icon small>mdi-arrow-up</v-icon>
                             </button>
                         </th>
+                        <th>Hotels Owned</th>
                         <th>edit/delete</th>
                     </tr>
                 </thead>
                 <tr v-for="(item,i) in customer" :key="i">
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
+                    <td>{{item.totalhotels}}</td>
                     <td>
                         <v-btn @click="edit(item)" color="transparent" fab small elevation="0">
                             <v-icon small color="green">mdi-pencil</v-icon>
@@ -86,6 +88,7 @@ export default {
             idasc: true,
             nameasc: true,
             customer: [],
+            count: [],
             formDialog: false,
             val:'',
             link:'http://127.0.0.1:3333/customer/search'
@@ -93,9 +96,10 @@ export default {
         }
     },
     mounted(){
-          Vue.axios.get('http://127.0.0.1:3333/customer/read')
-          .then((res) => {this.customer=(res.data)
-          console.log(res)
+          Vue.axios.get('http://127.0.0.1:3333/customer/count')
+          .then((res) => {
+            this.customer=(res.data)
+            console.log(res)
           })
         },
        methods:{
@@ -104,7 +108,7 @@ export default {
             this.resetform()
         },
         read(){
-            Vue.axios.get('http://127.0.0.1:3333/customer/read/')
+            Vue.axios.get('http://127.0.0.1:3333/customer/count/')
             .then((res) => {this.customer=(res.data)
             console.log(res)
            

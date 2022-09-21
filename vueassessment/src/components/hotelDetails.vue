@@ -62,6 +62,9 @@
                                 <v-icon small>mdi-arrow-up</v-icon>
                             </button>
                         </th>
+                        <th>
+                            customer name
+                        </th>
                         <th>address</th>
                         <th>edit/delete</th>
                     </tr>
@@ -70,6 +73,7 @@
                     <td>{{item.hotelid}}</td>
                     <td>{{item.customerid}}</td>
                     <td>{{item.hotelname}}</td>
+                    <td>{{item.name}}</td>
                     <td>{{JSON.stringify(item.doorno+', '+item.street+', '+item.landmark+', '+item.area)}}</td>
                     <td>
                         <v-btn @click="edit(item)" color="transparent" fab small elevation="0">
@@ -115,7 +119,7 @@ export default {
         }
     },
     mounted(){
-          Vue.axios.get('http://127.0.0.1:3333/hotel/read')
+          Vue.axios.get('http://127.0.0.1:3333/hotel/join')
           .then((res) => {
             this.hotel=(res.data)
             console.log(res)
@@ -128,7 +132,7 @@ export default {
             this.resetform()
         },
         read(){
-            Vue.axios.get('http://127.0.0.1:3333/hotel/read/')
+            Vue.axios.get('http://127.0.0.1:3333/hotel/join/')
             .then((res) => {this.hotel=(res.data)
             console.log(res)
            
