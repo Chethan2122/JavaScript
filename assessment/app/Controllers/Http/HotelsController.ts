@@ -141,7 +141,7 @@ export default class CustomersController {
     public async join(){
         return Database
         .from('hotels')
-        .join('customers','customers.id','=','hotels.customerid')
+        .leftJoin('customers','customers.id','=','hotels.customerid')
         .select('hotels.*')
         .select('customers.name')
         .orderBy('hotels.hotelid','asc')
