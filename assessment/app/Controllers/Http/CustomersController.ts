@@ -65,19 +65,42 @@ export default class CustomersController {
         }
     }
     public async idAsc() {
-        return Customer.query().orderBy("id", "asc")
+        var idasc = Database
+        .from('customers')
+        .leftJoin('hotels','customers.id','=','hotels.customerid')
+        .select('customers.*')
+        .groupBy('customers.id')
+        .count('hotels.customerid as totalhotels')
+        return idasc.orderBy('id','asc')
     }
     public async idDesc() {
-        return Customer.query().orderBy("id", "desc")
+        var iddesc = Database
+        .from('customers')
+        .leftJoin('hotels','customers.id','=','hotels.customerid')
+        .select('customers.*')
+        .groupBy('customers.id')
+        .count('hotels.customerid as totalhotels')
+        return iddesc.orderBy('id','desc')
     }
     public async nameAsc() {
-        return Customer.query().orderBy("name", "asc")
+        var nameasc = Database
+        .from('customers')
+        .leftJoin('hotels','customers.id','=','hotels.customerid')
+        .select('customers.*')
+        .groupBy('customers.id')
+        .count('hotels.customerid as totalhotels')
+        return nameasc.orderBy('name','asc')
     }
     public async nameDesc() {
-        return Customer.query().orderBy("name", "desc")
-    }
+        var namedesc = Database
+        .from('customers')
+        .leftJoin('hotels','customers.id','=','hotels.customerid')
+        .select('customers.*')
+        .groupBy('customers.id')
+        .count('hotels.customerid as totalhotels')
+        return namedesc.orderBy('name','desc')    }
     public async count(){
-        return await Database
+        return Database
         .from('customers')
         .leftJoin('hotels','customers.id','=','hotels.customerid')
         .select('customers.*')

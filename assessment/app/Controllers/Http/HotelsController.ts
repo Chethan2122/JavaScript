@@ -91,22 +91,52 @@ export default class CustomersController {
         .where('hotelid','=',hotelid)
     }
     public async hIdAsc() {
-        return Hotel.query().orderBy("hotelid", "asc")
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy("hotelid", "asc")
     }
     public async hIdDesc() {
-        return Hotel.query().orderBy("hotelid", "desc")
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy("hotelid", "desc")
     }
     public async cIdAsc() {
-        return Hotel.query().orderBy("customerid", "asc")
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy("customerid", "asc")
     }
     public async cIdDesc() {
-        return Hotel.query().orderBy("customerid", "desc")
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy("customerid", "desc")
     }
     public async nameAsc() {
-        return Hotel.query().orderBy("hotelname", "asc")
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy("hotelname", "asc")
     }
     public async nameDesc() {
-        return Hotel.query().orderBy("hotelname", "desc")
+        return Database
+        .from('hotels')
+        .join('customers','customers.id','=','hotels.customerid')
+        .select('hotels.*')
+        .select('customers.name')
+        .orderBy("hotelname", "desc")
     }
     public async join(){
         return Database
