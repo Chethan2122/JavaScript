@@ -70,12 +70,12 @@
                     <td>{{item.hotelid}}</td>
                     <td>{{item.customerid}}</td>
                     <td>{{item.hotelname}}</td>
-                    <td>{{item.address}}</td>
+                    <td>{{item.doorno+", "+item.street+', '+item.landmark+', '+item.area}}</td>
                     <td>
                         <v-btn @click="edit(item)" color="transparent" fab small elevation="0">
                             <v-icon small color="green">mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn @click="remove(item.id)" color="transparent" fab small elevation="0">
+                        <v-btn @click="remove(item.hotelid)" color="transparent" fab small elevation="0">
                             <v-icon small color="red">mdi-delete</v-icon>
                         </v-btn>
                     </td>
@@ -102,7 +102,7 @@ export default {
                 landmark: '',
                 area: ''
             },
-            address:{
+                address:{
                 doorno: '',
                 street: '',
                 landmark: '',
@@ -155,8 +155,8 @@ export default {
             this.$refs.forms.reset()  
             
         },
-        remove(id){
-            Vue.axios.delete(`http://127.0.0.1:3333/hotel/delete/${id}`)
+        remove(hotelid){
+            Vue.axios.delete(`http://127.0.0.1:3333/hotel/delete/${hotelid}`)
             this.read()
         },
         edit(item){
@@ -177,8 +177,14 @@ export default {
             this.formDialog=false
             this.change=true
             Vue.axios.patch('http://127.0.0.1:3333/hotel/update/',{
-                id:this.input.id,
-                name:this.input.name                 
+                hotelid:this.input.hotelid,
+                customerid:this.input.customerid,
+                hotelname:this.input.hotelname,
+                doorno:this.input.doorno,
+                street:this.input.street,
+                landmark:this.input.landmark,
+                area:this.input.area
+
             })
             this.read()
             this.resetform()
