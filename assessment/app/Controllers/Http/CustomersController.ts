@@ -46,8 +46,11 @@ export default class CustomersController {
         try {
             const val = request.input('val')
             return Database
-                .from('customers')
-                .select('*')
+            .from('customers')
+            .select('customers.*')
+            .leftJoin('hotels','customers.id','=','hotels.customerid')
+            .groupBy('customers.id')
+            .count('hotels.customerid as totalhotels')
                 .where((query) => {
                     if (/^[0-9]/.test(val)) {
                         query

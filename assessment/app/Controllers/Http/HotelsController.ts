@@ -4,8 +4,8 @@ import HotelValidator from 'App/Validators/HotelValidator'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class CustomersController {
-    public async create({request}:HttpContextContract){
-        try{
+    public async create({ request }: HttpContextContract) {
+        try {
             const payload = await request.validate(HotelValidator)
             const table1 = new Hotel()
             table1.hotelid = payload['hotelid']
@@ -15,18 +15,18 @@ export default class CustomersController {
             table1.street = payload['street']
             table1.landmark = payload['landmark']
             table1.area = payload['area']
-            await  table1.save()
+            await table1.save()
             return Hotel.all()
         }
-        catch{
-             return 'enter correct values.'
+        catch {
+            return 'enter correct values.'
         }
     }
-    public async read(){
+    public async read() {
         return Hotel.query().orderBy("hotelid", "asc")
     }
-    public async update({request}:HttpContextContract){
-        try{
+    public async update({ request }: HttpContextContract) {
+        try {
             const val = await request.validate(HotelValidator)
             const name1 = await Hotel.findOrFail(val['hotelid'])
             name1.customerid = val['cutomerid']
@@ -57,7 +57,9 @@ export default class CustomersController {
             const val = request.input('val')
             return Database
                 .from('hotels')
-                .select('*')
+                .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+                .select('hotels.*')
+                .select('customers.name')
                 .where((query) => {
                     if (/^[0-9]/.test(val)) {
                         query
@@ -68,6 +70,7 @@ export default class CustomersController {
                             .orWhere('street', 'ilike', '%' + val + '%')
                             .orWhere('landmark', 'ilike', '%' + val + '%')
                             .orWhere('area', 'ilike', '%' + val + '%')
+                            .orWhere('name', 'ilike', '%' + val + '%')
                     }
                 })
                 .orWhere((query) => {
@@ -77,74 +80,74 @@ export default class CustomersController {
                         .orWhere('street', 'ilike', '%' + val + '%')
                         .orWhere('landmark', 'ilike', '%' + val + '%')
                         .orWhere('area', 'ilike', '%' + val + '%')
+                        .orWhere('name', 'ilike', '%' + val + '%')
                 })
         }
         catch {
             return 'Enter correctly!!'
         }
     }
-    public async address({request}){
-        var hotelid = request.params().id
+    public async join() {
         return Database
-        .from('hotels')
-        .select('doorno','street','landmark','area')
-        .where('hotelid','=',hotelid)
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy('hotels.hotelid', 'asc')
+    }
+    public async address() {
+        const address = Database
+            .from('hotels')
+            .select('doorno', 'street', 'landmark', 'area')
+        return address
     }
     public async hIdAsc() {
         return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy("hotelid", "asc")
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy("hotelid", "asc")
     }
     public async hIdDesc() {
         return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy("hotelid", "desc")
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy("hotelid", "desc")
     }
     public async cIdAsc() {
         return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy("customerid", "asc")
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy("customerid", "asc")
     }
     public async cIdDesc() {
         return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy("customerid", "desc")
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy("customerid", "desc")
     }
     public async nameAsc() {
         return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy("hotelname", "asc")
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy("hotelname", "asc")
     }
     public async nameDesc() {
         return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy("hotelname", "desc")
-    }
-    public async join(){
-        return Database
-        .from('hotels')
-        .leftJoin('customers','customers.id','=','hotels.customerid')
-        .select('hotels.*')
-        .select('customers.name')
-        .orderBy('hotels.hotelid','asc')
+            .from('hotels')
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.*')
+            .select('customers.name')
+            .orderBy("hotelname", "desc")
     }
     // public async doornoAsc() {
     //     return Hotel.query().orderBy("doorno", "asc")

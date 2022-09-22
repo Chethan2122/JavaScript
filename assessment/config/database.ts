@@ -38,7 +38,7 @@ const databaseConfig: DatabaseConfig = {
       connection: {
         host: Env.get('PG_HOST','localhost'),
         port: Env.get('PG_PORT',5432),
-        user: Env.get('PG_USER','postgres'),
+        user: Env.get('PG_USER','admin'),
         password: Env.get('PG_PASSWORD', 'postgres'),
         database: Env.get('PG_DB_NAME','assessment'),
       },
