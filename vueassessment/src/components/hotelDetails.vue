@@ -69,12 +69,12 @@
                         <th>edit/delete</th>
                     </tr>
                 </thead>
-                <tr v-for="(item,i) in hotel" :key="i">
+                <tr v-for="(item) in hotel" :key="item.hotelid">
                     <td>{{item.hotelid}}</td>
                     <td>{{item.customerid}}</td>
                     <td>{{item.hotelname}}</td>
                     <td>{{item.name}}</td>
-                    <td>{{JSON.stringify(item.doorno+', '+item.street+', '+item.landmark+', '+item.area)}}</td>
+                    <td>{{item.doorno + ", " + item.street + ", " +item.landmark + ", " + item.area}}</td>
                     <td>
                         <v-btn @click="edit(item)" color="transparent" fab small elevation="0">
                             <v-icon small color="green">mdi-pencil</v-icon>
@@ -91,11 +91,12 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios';
-import VueAxios from 'vue-axios';Vue.use(VueAxios, axios)
+import VueAxios from 'vue-axios'; Vue.use(VueAxios, axios)
 export default {
 
     data() {
         return {
+            hotelAddress: [],
             editform: {},
             input: {
                 hotelid: '',
@@ -106,67 +107,66 @@ export default {
                 landmark: '',
                 area: ''
             },
-            address:{},
+            address: {},
             change: true,
             hotel: [],
             formDialog: false,
-            hidasc:true,
-            cidasc:true,
-            nameasc:true,
-            val:'',
-            link:'http://127.0.0.1:3333/hotel/search'
+            hidasc: true,
+            cidasc: true,
+            nameasc: true,
+            val: '',
+            link: 'http://127.0.0.1:3333/hotel/search'
 
         }
     },
-    mounted(){
-          Vue.axios.get('http://127.0.0.1:3333/hotel/join')
-          .then((res) => {
-            this.hotel=(res.data)
-            console.log(res)
-          })
+    mounted() {
+        this.read()
 
-        },
-       methods:{
-        openform(){
-            this.change=true
+    },
+    methods: {
+        openform() {
+            this.change = true
             this.resetform()
         },
-        read(){
+        read() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/join/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-           
-          })
-        },
-        addItem(){
-            console.log('post'),
-            Vue.axios.post('http://127.0.0.1:3333/hotel/create/',
-            {
-                hotelid:this.input.hotelid,
-                customerid:this.input.customerid,
-                hotelname:this.input.hotelname,
-                doorno:this.input.doorno,
-                street:this.input.street,
-                landmark:this.input.landmark,
-                area:this.input.area
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                })
+            axios.get(`http://127.0.0.1:3333/hotel/address`).then(res => {
+                this.hotelAddress = res.data
             })
-            this.formDialog=false
+        },
+        addItem() {
+            console.log('post'),
+                Vue.axios.post('http://127.0.0.1:3333/hotel/create/',
+                    {
+                        hotelid: this.input.hotelid,
+                        customerid: this.input.customerid,
+                        hotelname: this.input.hotelname,
+                        doorno: this.input.doorno,
+                        street: this.input.street,
+                        landmark: this.input.landmark,
+                        area: this.input.area
+                    })
+            this.formDialog = false
             this.read()
             this.resetform()
-            this.$refs.forms.reset()  
-            
+            this.$refs.forms.reset()
+
         },
-        remove(hotelid){
+        remove(hotelid) {
             Vue.axios.delete(`http://127.0.0.1:3333/hotel/delete/${hotelid}`)
             this.read()
         },
-        edit(item){
+        edit(item) {
             this.change = false
             this.formDialog = true
             this.editform = item
             this.input = item
-        },             
-        editItem(){
+        },
+        editItem() {
             let test = this.hotel.findIndex(temp => temp.id == this.editform.id)
             this.hotel[test].hotelid = this.input.hotelid
             this.hotel[test].customerid = this.input.customerid
@@ -175,83 +175,89 @@ export default {
             this.hotel[test].street = this.input.street
             this.hotel[test].landmark = this.input.landmark
             this.hotel[test].area = this.input.area
-            this.formDialog=false
-            this.change=true
-            Vue.axios.patch('http://127.0.0.1:3333/hotel/update/',{
-                hotelid:this.input.hotelid,
-                customerid:this.input.customerid,
-                hotelname:this.input.hotelname,
-                doorno:this.input.doorno,
-                street:this.input.street,
-                landmark:this.input.landmark,
-                area:this.input.area
+            this.formDialog = false
+            this.change = true
+            Vue.axios.patch('http://127.0.0.1:3333/hotel/update/', {
+                hotelid: this.input.hotelid,
+                customerid: this.input.customerid,
+                hotelname: this.input.hotelname,
+                doorno: this.input.doorno,
+                street: this.input.street,
+                landmark: this.input.landmark,
+                area: this.input.area
 
             })
             this.read()
             this.resetform()
-            this.$refs.forms.reset()  
+            this.$refs.forms.reset()
         },
-        resetform(){
-            this.input={}
+        resetform() {
+            this.input = {}
         },
-        cancel(){
-            this.formDialog=false
-            this.chage=true
+        cancel() {
+            this.formDialog = false
+            this.chage = true
             this.resetform()
             this.read()
         },
         searchElement(value) {
             this.hotel = value.data
         },
-        hIdAsc(){
+        hIdAsc() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/hiddesc/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-            this.hidasc=false
-           
-          })
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                    this.hidasc = false
+
+                })
         },
-        hIdDesc(){
+        hIdDesc() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/hidasc/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-            this.hidasc=true
-           
-          })
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                    this.hidasc = true
+
+                })
         },
-        cIdAsc(){
+        cIdAsc() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/ciddesc/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-            this.cidasc=false
-           
-          })
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                    this.cidasc = false
+
+                })
         },
-        cIdDesc(){
+        cIdDesc() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/cidasc/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-            this.cidasc=true
-           
-          })
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                    this.cidasc = true
+
+                })
         },
-        nameAsc(){
+        nameAsc() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/namedesc/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-            this.nameasc=false
-           
-          })
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                    this.nameasc = false
+
+                })
         },
-        nameDesc(){
+        nameDesc() {
             Vue.axios.get('http://127.0.0.1:3333/hotel/nameasc/')
-            .then((res) => {this.hotel=(res.data)
-            console.log(res)
-            this.nameasc=true
-           
-          })
+                .then((res) => {
+                    this.hotel = (res.data)
+                    console.log(res)
+                    this.nameasc = true
+
+                })
         }
     }
 }
-  
+
 </script>
