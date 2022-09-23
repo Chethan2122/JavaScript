@@ -39,31 +39,35 @@
                 <thead>
                     <tr>
                         <th>hotel Id
-                            <button v-if="hidasc" @click="hIdAsc">
-                                <v-icon small>mdi-arrow-down</v-icon>
-                            </button>
-                            <button v-else @click="hIdDesc">
-                                <v-icon small>mdi-arrow-up</v-icon>
-                            </button>
+                          
+                                <v-icon @click="sort('hotelid','asc')" small>mdi-arrow-down</v-icon>
+                          
+                          
+                                <v-icon @click="sort('hotelid','desc')" small>mdi-arrow-up</v-icon>
+                         
                         </th>
                         <th>customer Id
-                            <button v-if="cidasc" @click="cIdAsc">
-                                <v-icon small>mdi-arrow-down</v-icon>
-                            </button>
-                            <button v-else @click="cIdDesc">
-                                <v-icon small>mdi-arrow-up</v-icon>
-                            </button>
+                            <v-icon @click="sort('customerid','asc')" small>mdi-arrow-down</v-icon>
+
+
+                            <v-icon @click="sort('customerid','desc')" small>mdi-arrow-up</v-icon>
+
                         </th>
                         <th>hotel name
-                            <button v-if="nameasc" @click="nameAsc">
-                                <v-icon small>mdi-arrow-down</v-icon>
-                            </button>
-                            <button v-else @click="nameDesc">
-                                <v-icon small>mdi-arrow-up</v-icon>
-                            </button>
+                          
+                                <v-icon @click="sort('hotelname','asc')" small>mdi-arrow-down</v-icon>
+                        
+                         
+                                <v-icon  @click="sort('hotelname','asc')" small>mdi-arrow-up</v-icon>
+                        
                         </th>
-                        <th>
-                            customer name
+                        <th>customer name
+                          
+                                <v-icon @click="sort('name','asc')" small>mdi-arrow-down</v-icon>
+                          
+                          
+                                <v-icon @click="sort('name','desc')" small>mdi-arrow-up</v-icon>
+                         
                         </th>
                         <th>address</th>
                         <th>edit/delete</th>
@@ -111,9 +115,6 @@ export default {
             change: true,
             hotel: [],
             formDialog: false,
-            hidasc: true,
-            cidasc: true,
-            nameasc: true,
             val: '',
             link: 'http://127.0.0.1:3333/hotel/search'
 
@@ -203,60 +204,72 @@ export default {
         searchElement(value) {
             this.hotel = value.data
         },
-        hIdAsc() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/hiddesc/')
+        sort(sortBy, ascDesc) {
+            const val = {
+                sortBy: sortBy,
+                ascDesc: ascDesc
+            }
+            Vue.axios.post('http://127.0.0.1:3333/hotel/sortBy', val)
                 .then((res) => {
                     this.hotel = (res.data)
                     console.log(res)
-                    this.hidasc = false
-
-                })
-        },
-        hIdDesc() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/hidasc/')
-                .then((res) => {
-                    this.hotel = (res.data)
-                    console.log(res)
-                    this.hidasc = true
-
-                })
-        },
-        cIdAsc() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/ciddesc/')
-                .then((res) => {
-                    this.hotel = (res.data)
-                    console.log(res)
-                    this.cidasc = false
-
-                })
-        },
-        cIdDesc() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/cidasc/')
-                .then((res) => {
-                    this.hotel = (res.data)
-                    console.log(res)
-                    this.cidasc = true
-
-                })
-        },
-        nameAsc() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/namedesc/')
-                .then((res) => {
-                    this.hotel = (res.data)
-                    console.log(res)
-                    this.nameasc = false
-
-                })
-        },
-        nameDesc() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/nameasc/')
-                .then((res) => {
-                    this.hotel = (res.data)
-                    console.log(res)
-                    this.nameasc = true
 
                 })
         }
+            // hIdAsc() {
+            //     Vue.axios.get('http://127.0.0.1:3333/hotel/hiddesc/')
+            //         .then((res) => {
+            //             this.hotel = (res.data)
+            //             console.log(res)
+            //             this.hidasc = false
+
+            //         })
+            // },
+            // hIdDesc() {
+            //     Vue.axios.get('http://127.0.0.1:3333/hotel/hidasc/')
+            //         .then((res) => {
+            //             this.hotel = (res.data)
+            //             console.log(res)
+            //             this.hidasc = true
+
+            //         })
+            // },
+            // cIdAsc() {
+            //     Vue.axios.get('http://127.0.0.1:3333/hotel/ciddesc/')
+            //         .then((res) => {
+            //             this.hotel = (res.data)
+            //             console.log(res)
+            //             this.cidasc = false
+
+            //         })
+            // },
+            // cIdDesc() {
+            //     Vue.axios.get('http://127.0.0.1:3333/hotel/cidasc/')
+            //         .then((res) => {
+            //             this.hotel = (res.data)
+            //             console.log(res)
+            //             this.cidasc = true
+
+            //         })
+            // },
+            // nameAsc() {
+            //     Vue.axios.get('http://127.0.0.1:3333/hotel/namedesc/')
+            //         .then((res) => {
+            //             this.hotel = (res.data)
+            //             console.log(res)
+            //             this.nameasc = false
+
+            //         })
+            // },
+            // nameDesc() {
+            //     Vue.axios.get('http://127.0.0.1:3333/hotel/nameasc/')
+            //         .then((res) => {
+            //             this.hotel = (res.data)
+            //             console.log(res)
+            //             this.nameasc = true
+
+            //         })
+        //}
     }
 }
 

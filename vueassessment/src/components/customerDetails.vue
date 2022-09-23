@@ -35,22 +35,28 @@
                 <thead>
                     <tr>
                         <th>id
-                            <button v-if="idasc" @click="idAsc">
-                                <v-icon small>mdi-arrow-down</v-icon>
-                            </button>
-                            <button v-else @click="idDesc">
-                                <v-icon small>mdi-arrow-up</v-icon>
-                            </button>
+
+                            <v-icon @click="sort('id','asc')" small>mdi-arrow-down</v-icon>
+
+                            <v-icon @click="sort('id','desc')" small>mdi-arrow-up</v-icon>
+
                         </th>
                         <th>name
-                            <button v-if="nameasc" @click="nameAsc">
-                                <v-icon small>mdi-arrow-down</v-icon>
-                            </button>
-                            <button v-else @click="nameDesc">
-                                <v-icon small>mdi-arrow-up</v-icon>
-                            </button>
+
+                            <v-icon @click="sort('name','asc')" small>mdi-arrow-down</v-icon>
+
+
+                            <v-icon @click="sort('name','desc')" small>mdi-arrow-up</v-icon>
+
                         </th>
-                        <th>Hotels Owned</th>
+                        <th>Hotels Owned
+
+                            <v-icon @click="sort('totalhotels','asc')" small>mdi-arrow-down</v-icon>
+
+
+                            <v-icon @click="sort('totalhotels','desc')" small>mdi-arrow-up</v-icon>
+
+                        </th>
                         <th>edit/delete</th>
                     </tr>
                 </thead>
@@ -74,7 +80,7 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios';
-import VueAxios from 'vue-axios';Vue.use(VueAxios, axios)
+import VueAxios from 'vue-axios'; Vue.use(VueAxios, axios)
 export default {
 
     data() {
@@ -90,115 +96,132 @@ export default {
             customer: [],
             count: [],
             formDialog: false,
-            val:'',
-            link:'http://127.0.0.1:3333/customer/search'
+            val: '',
+            link: 'http://127.0.0.1:3333/customer/search'
 
         }
     },
-    mounted(){
-          Vue.axios.get('http://127.0.0.1:3333/customer/count')
-          .then((res) => {
-            this.customer=(res.data)
-            console.log(res)
-          })
-        },
-       methods:{
-        openform(){
-            this.change=true
+    mounted() {
+        Vue.axios.get('http://127.0.0.1:3333/customer/count')
+            .then((res) => {
+                this.customer = (res.data)
+                console.log(res)
+            })
+    },
+    methods: {
+        openform() {
+            this.change = true
             this.resetform()
         },
-        read(){
+        read() {
             Vue.axios.get('http://127.0.0.1:3333/customer/count/')
-            .then((res) => {this.customer=(res.data)
-            console.log(res)
-           
-          })
+                .then((res) => {
+                    this.customer = (res.data)
+                    console.log(res)
+
+                })
         },
-        addItem(){
+        addItem() {
             console.log('post'),
-            Vue.axios.post('http://127.0.0.1:3333/customer/create/',
-            {
-                id:this.input.id,
-                name:this.input.name
-            })
-            this.formDialog=false
+                Vue.axios.post('http://127.0.0.1:3333/customer/create/',
+                    {
+                        id: this.input.id,
+                        name: this.input.name
+                    })
+            this.formDialog = false
             this.read()
             this.resetform()
-            this.$refs.forms.reset()  
-            
+            this.$refs.forms.reset()
+
         },
-        remove(id){
+        remove(id) {
             Vue.axios.delete(`http://127.0.0.1:3333/customer/delete/${id}`)
             this.read()
         },
-        edit(item){
+        edit(item) {
             this.change = false
             this.formDialog = true
             this.editform = item
             this.input.id = item.id
             this.input.name = item.name
-        },             
-        editItem(){
+        },
+        editItem() {
             let test = this.customer.findIndex(temp => temp.id == this.editform.id)
             this.customer[test].id = this.input.id
             this.customer[test].name = this.input.name
-            this.formDialog=false
-            this.change=true
-            Vue.axios.patch('http://127.0.0.1:3333/customer/update/',{
-                id:this.input.id,
-                name:this.input.name                 
+            this.formDialog = false
+            this.change = true
+            Vue.axios.patch('http://127.0.0.1:3333/customer/update/', {
+                id: this.input.id,
+                name: this.input.name
             })
             this.read()
             this.resetform()
-            this.$refs.forms.reset()  
+            this.$refs.forms.reset()
         },
         searchElement(value) {
             this.customer = value.data
         },
-        resetform(){
-            this.input.id=''
-            this.input.name=''
-            this.input.role=''
+        resetform() {
+            this.input.id = ''
+            this.input.name = ''
+            this.input.role = ''
         },
-        cancel(){
-            this.formDialog=false
-            this.chage=true
+        cancel() {
+            this.formDialog = false
+            this.chage = true
             this.resetform()
             this.read()
         },
-        idAsc(){
-            Vue.axios.get('http://127.0.0.1:3333/customer/iddesc/')
-            .then((res) => {this.customer=(res.data)
-            console.log(res)
-            this.idasc=false
-           
-          })
+        sort(sortBy, ascDesc) {
+            const val = {
+                sortBy: sortBy,
+                ascDesc: ascDesc
+            }
+            Vue.axios.post('http://127.0.0.1:3333/customer/sortBy', val)
+                .then((res) => {
+                    this.customer = (res.data)
+                    console.log(res)
+
+                })
         },
-        idDesc(){
-            Vue.axios.get('http://127.0.0.1:3333/customer/idasc/')
-            .then((res) => {this.customer=(res.data)
-            console.log(res)
-            this.idasc=true
-           
-          })
-        },
-        nameAsc(){
-            Vue.axios.get('http://127.0.0.1:3333/customer/namedesc/')
-            .then((res) => {this.customer=(res.data)
-            console.log(res)
-            this.nameasc=false
-           
-          })
-        },
-        nameDesc(){
-            Vue.axios.get('http://127.0.0.1:3333/customer/nameasc/')
-            .then((res) => {this.customer=(res.data)
-            console.log(res)
-            this.nameasc=true
-           
-          })
-        }
+        // idAsc() {
+        //     Vue.axios.get('http://127.0.0.1:3333/customer/iddesc/')
+        //         .then((res) => {
+        //             this.customer = (res.data)
+        //             console.log(res)
+        //             this.idasc = false
+
+        //         })
+        // },
+        // idDesc() {
+        //     Vue.axios.get('http://127.0.0.1:3333/customer/idasc/')
+        //         .then((res) => {
+        //             this.customer = (res.data)
+        //             console.log(res)
+        //             this.idasc = true
+
+        //         })
+        // },
+        // nameAsc() {
+        //     Vue.axios.get('http://127.0.0.1:3333/customer/namedesc/')
+        //         .then((res) => {
+        //             this.customer = (res.data)
+        //             console.log(res)
+        //             this.nameasc = false
+
+        //         })
+        // },
+        // nameDesc() {
+        //     Vue.axios.get('http://127.0.0.1:3333/customer/nameasc/')
+        //         .then((res) => {
+        //             this.customer = (res.data)
+        //             console.log(res)
+        //             this.nameasc = true
+
+        //         })
+        // }
     }
 }
-  
+
 </script>
