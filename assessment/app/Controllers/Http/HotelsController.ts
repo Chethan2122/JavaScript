@@ -33,7 +33,7 @@ export default class CustomersController {
             name1.hotelname = val['hotelname']
             name1.doorno = val['doorno']
             name1.street = val['street']
-            name1.landmark = val['lanmark']
+            name1.landmark = val['landmark']
             name1.area = val['area']
             await name1.save()
             return Hotel.all()
@@ -65,12 +65,12 @@ export default class CustomersController {
                         query
                             .where('hotelid', val)
                             .orWhere('customerid', val)
-                            .orWhere('hotelname', 'ilike', '%' + val + '%')
-                            .orWhere('doorno', 'ilike', '%' + val + '%')
-                            .orWhere('street', 'ilike', '%' + val + '%')
-                            .orWhere('landmark', 'ilike', '%' + val + '%')
-                            .orWhere('area', 'ilike', '%' + val + '%')
-                            .orWhere('name', 'ilike', '%' + val + '%')
+                            // .orWhere('hotelname', 'ilike', '%' + val + '%')
+                            // .orWhere('doorno', 'ilike', '%' + val + '%')
+                            // .orWhere('street', 'ilike', '%' + val + '%')
+                            // .orWhere('landmark', 'ilike', '%' + val + '%')
+                            // .orWhere('area', 'ilike', '%' + val + '%')
+                            // .orWhere('name', 'ilike', '%' + val + '%')
                     }
                 })
                 .orWhere((query) => {
@@ -88,12 +88,21 @@ export default class CustomersController {
         }
     }
     public async join() {
-        return Database
-            .from('hotels')
+        let a = await Hotel.query()
             .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
             .select('hotels.*')
             .select('customers.name')
             .orderBy('hotels.hotelid', 'asc')
+            .then(d =>
+                d.map(h => {
+                    const data = h.toJSON()
+                    return {
+                        ...data,
+                        name: h.$extras.name,
+                    }
+                })
+            )
+        return a
     }
     public async address() {
         const address = Database
@@ -101,76 +110,78 @@ export default class CustomersController {
             .select('doorno', 'street', 'landmark', 'area')
         return address
     }
-    public async hIdAsc() {
-        return Database
-            .from('hotels')
+    public async sortBy({ request }: HttpContextContract) {
+        var sortBy = request.input('sortBy')
+        var sortAs = request.input('ascDesc')
+        let a = await Hotel.query()
             .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
             .select('hotels.*')
             .select('customers.name')
-            .orderBy("hotelid", "asc")
+            .orderBy(sortBy, sortAs)
+            .then(d =>
+                d.map(h => {
+                    const data = h.toJSON()
+                    return {
+                        ...data,
+                        name: h.$extras.name,
+                    }
+                })
+            )
+        return a
     }
-    public async hIdDesc() {
-        return Database
-            .from('hotels')
-            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.*')
-            .select('customers.name')
-            .orderBy("hotelid", "desc")
-    }
-    public async cIdAsc() {
-        return Database
-            .from('hotels')
-            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.*')
-            .select('customers.name')
-            .orderBy("customerid", "asc")
-    }
-    public async cIdDesc() {
-        return Database
-            .from('hotels')
-            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.*')
-            .select('customers.name')
-            .orderBy("customerid", "desc")
-    }
-    public async nameAsc() {
-        return Database
-            .from('hotels')
-            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.*')
-            .select('customers.name')
-            .orderBy("hotelname", "asc")
-    }
-    public async nameDesc() {
-        return Database
-            .from('hotels')
-            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.*')
-            .select('customers.name')
-            .orderBy("hotelname", "desc")
-    }
-    // public async doornoAsc() {
-    //     return Hotel.query().orderBy("doorno", "asc")
-    // }
-    // public async doornoDesc() {
-    //     return Hotel.query().orderBy("doorno", "desc")
-    // }
-    // public async streetAsc() {
-    //     return Hotel.query().orderBy("street", "asc")
-    // }
-    // public async streetDesc() {
-    //     return Hotel.query().orderBy("street", "desc")
-    // }
-    // public async landmarkAsc() {
-    //     return Hotel.query().orderBy("landmark", "asc")
-    // }
-    // public async lnadmarkDesc() {
-    //     return Hotel.query().orderBy("landmark", "desc")
-    // }
-    // public async areaAsc() {
-    //     return Hotel.query().orderBy("area", "asc")
-    // }
-    // public async areaDesc() {
-    //     return Hotel.query().orderBy("area", "desc")
-    // }
 }
+
+
+
+
+
+
+    // public async hIdAsc() {
+    //     return Database
+    //         .from('hotels')
+    //         .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+    //         .select('hotels.*')
+    //         .select('customers.name')
+    //         .orderBy("hotelid", "asc")
+    // }
+    // public async hIdDesc() {
+    //     return Database
+    //         .from('hotels')
+    //         .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+    //         .select('hotels.*')
+    //         .select('customers.name')
+    //         .orderBy("hotelid", "desc")
+    // }
+    // public async cIdAsc() {
+    //     return Database
+    //         .from('hotels')
+    //         .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+    //         .select('hotels.*')
+    //         .select('customers.name')
+    //         .orderBy("customerid", "asc")
+    // }
+    // public async cIdDesc() {
+    //     return Database
+    //         .from('hotels')
+    //         .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+    //         .select('hotels.*')
+    //         .select('customers.name')
+    //         .orderBy("customerid", "desc")
+    // }
+    // public async nameAsc() {
+    //     return Database
+    //         .from('hotels')
+    //         .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+    //         .select('hotels.*')
+    //         .select('customers.name')
+    //         .orderBy("hotelname", "asc")
+    // }
+    // public async nameDesc() {
+    //     return Database
+    //         .from('hotels')
+    //         .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+    //         .select('hotels.*')
+    //         .select('customers.name')
+    //         .orderBy("hotelname", "desc")
+    // }
+

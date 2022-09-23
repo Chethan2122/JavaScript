@@ -1,7 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Customer from 'App/Models/Customer'
 import CustomerValidator from 'App/Validators/CustomerValidator'
-import Database from '@ioc:Adonis/Lucid/Database'
+//import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class CustomersController {
     public async create({request}:HttpContextContract){
@@ -45,71 +45,115 @@ export default class CustomersController {
     public async search({ request }: HttpContextContract) {
         try {
             const val = request.input('val')
-            return Database
-            .from('customers')
-            .select('customers.*')
+            const search = await Customer.query()
             .leftJoin('hotels','customers.id','=','hotels.customerid')
+            .select('customers.*')
             .groupBy('customers.id')
             .count('hotels.customerid as totalhotels')
                 .where((query) => {
                     if (/^[0-9]/.test(val)) {
                         query
                             .where('id', val)
-                            .orWhere('name', 'ilike', '%' + val + '%')
+                            // .orWhere('name', 'ilike', '%' + val + '%')
                     }
                 })
                 .orWhere((query) => {
                     query
                         .where('name', 'ilike', '%' + val + '%')
                 })
+                .then(d =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                    d.map(h => {
+                     const data = h.toJSON()
+                     return {
+                        ...data,
+                        totalhotels: h.$extras.totalhotels,
+                     }
+                   })
+                 )
+                return search
         }
         catch {
             return 'Enter correctly!!'
         }
     }
-    public async idAsc() {
-        var idasc = Database
-        .from('customers')
+    public async sortBy({request}:HttpContextContract){
+        var sortBy = request.input('sortBy')
+        var sortAs = request.input('ascDesc')
+        var a = await Customer.query()
         .leftJoin('hotels','customers.id','=','hotels.customerid')
         .select('customers.*')
         .groupBy('customers.id')
         .count('hotels.customerid as totalhotels')
-        return idasc.orderBy('id','asc')
+        .orderBy(sortBy,sortAs)
+        .then(d =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            d.map(h => {
+             const data = h.toJSON()
+             return {
+                ...data,
+                totalhotels: h.$extras.totalhotels,
+             }
+           })
+         )
+         return a
     }
-    public async idDesc() {
-        var iddesc = Database
-        .from('customers')
-        .leftJoin('hotels','customers.id','=','hotels.customerid')
-        .select('customers.*')
-        .groupBy('customers.id')
-        .count('hotels.customerid as totalhotels')
-        return iddesc.orderBy('id','desc')
-    }
-    public async nameAsc() {
-        var nameasc = Database
-        .from('customers')
-        .leftJoin('hotels','customers.id','=','hotels.customerid')
-        .select('customers.*')
-        .groupBy('customers.id')
-        .count('hotels.customerid as totalhotels')
-        return nameasc.orderBy('name','asc')
-    }
-    public async nameDesc() {
-        var namedesc = Database
-        .from('customers')
-        .leftJoin('hotels','customers.id','=','hotels.customerid')
-        .select('customers.*')
-        .groupBy('customers.id')
-        .count('hotels.customerid as totalhotels')
-        return namedesc.orderBy('name','desc')    }
     public async count(){
-        return Database
-        .from('customers')
+        let a = await Customer.query()
         .leftJoin('hotels','customers.id','=','hotels.customerid')
         .select('customers.*')
         .groupBy('customers.id')
         .count('hotels.customerid as totalhotels')
         .orderBy('customers.id','asc')
-
+        .then(d =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            d.map(h => {
+             const data = h.toJSON()
+             return {
+                ...data,
+                totalhotels: h.$extras.totalhotels,
+             }
+           })
+         )
+         return a
     }
 }
+
+
+
+
+
+
+    // public async idAsc() {
+    //     var idasc = Database
+    //     .from('customers')
+    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
+    //     .select('customers.*')
+    //     .groupBy('customers.id')
+    //     .count('hotels.customerid as totalhotels')
+    //     return idasc.orderBy('id','asc')
+    // }
+    // public async idDesc() {
+    //     var iddesc = Database
+    //     .from('customers')
+    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
+    //     .select('customers.*')
+    //     .groupBy('customers.id')
+    //     .count('hotels.customerid as totalhotels')
+    //     return iddesc.orderBy('id','desc')
+    // }
+    // public async nameAsc() {
+    //     var nameasc = Database
+    //     .from('customers')
+    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
+    //     .select('customers.*')
+    //     .groupBy('customers.id')
+    //     .count('hotels.customerid as totalhotels')
+    //     return nameasc.orderBy('name','asc')
+    // }
+    // public async nameDesc() {
+    //     var namedesc = Database
+    //     .from('customers')
+    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
+    //     .select('customers.*')
+    //     .groupBy('customers.id')
+    //     .count('hotels.customerid as totalhotels')
+    //     return namedesc.orderBy('name','desc')    
+    // }
