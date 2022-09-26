@@ -54,7 +54,6 @@ export default class CustomersController {
                     if (/^[0-9]/.test(val)) {
                         query
                             .where('id', val)
-                            // .orWhere('name', 'ilike', '%' + val + '%')
                     }
                 })
                 .orWhere((query) => {

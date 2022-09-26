@@ -44,7 +44,7 @@ export default class CustomersController {
     }
     public async delete({ request }: HttpContextContract) {
         try {
-            const name1 = await Hotel.findOrFail(request.params().id)
+            var name1 = await Hotel.findOrFail(request.params().id)
             await name1.delete()
             return Hotel.all()
         }
@@ -54,9 +54,8 @@ export default class CustomersController {
     }
     public async search({ request }: HttpContextContract) {
         try {
-            const val = request.input('val')
-            return Database
-                .from('hotels')
+            var val = request.input('val')
+            var search = await Hotel.query()
                 .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
                 .select('hotels.*')
                 .select('customers.name')
@@ -65,12 +64,6 @@ export default class CustomersController {
                         query
                             .where('hotelid', val)
                             .orWhere('customerid', val)
-                            // .orWhere('hotelname', 'ilike', '%' + val + '%')
-                            // .orWhere('doorno', 'ilike', '%' + val + '%')
-                            // .orWhere('street', 'ilike', '%' + val + '%')
-                            // .orWhere('landmark', 'ilike', '%' + val + '%')
-                            // .orWhere('area', 'ilike', '%' + val + '%')
-                            // .orWhere('name', 'ilike', '%' + val + '%')
                     }
                 })
                 .orWhere((query) => {
@@ -82,6 +75,16 @@ export default class CustomersController {
                         .orWhere('area', 'ilike', '%' + val + '%')
                         .orWhere('name', 'ilike', '%' + val + '%')
                 })
+                .then(d =>
+                    d.map(h => {
+                        var data = h.toJSON()
+                        return {
+                            ...data,
+                            customername: h.$extras.name
+                        }
+                    })
+                )
+            return search
         }
         catch {
             return 'Enter correctly!!'
@@ -95,39 +98,50 @@ export default class CustomersController {
             .orderBy('hotels.hotelid', 'asc')
             .then(d =>
                 d.map(h => {
-                    const data = h.toJSON()
+                    var data = h.toJSON()
                     return {
                         ...data,
-                        name: h.$extras.name,
+                        customername: h.$extras.name,
                     }
                 })
             )
         return a
     }
     public async address() {
-        const address = Database
-            .from('hotels')
-            .select('doorno', 'street', 'landmark', 'area')
+        var address = await Hotel.query()
+        .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+        .select('hotels.hotelid','hotels.customerid','hotels.hotelname','customers.name')
+        .select(Database.raw(`json_build_object('doorno', doorno, 'street',street,'landmark',landmark,'area',area) as address`))
+        .then(d =>
+            d.map(h =>{
+                var data =h.toJSON()
+                return {
+                    ...data,
+                    customername : h.$extras.name,
+                    address : h.$extras.address
+                }
+            }))
         return address
     }
     public async sortBy({ request }: HttpContextContract) {
         var sortBy = request.input('sortBy')
         var sortAs = request.input('ascDesc')
-        let a = await Hotel.query()
+        let sort = await Hotel.query()
             .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.*')
-            .select('customers.name')
+            .select('hotels.hotelid','hotels.customerid','hotels.hotelname','customers.name')
+            .select(Database.raw(`json_build_object('doorno', doorno, 'street',street,'landmark',landmark,'area',area) as address`))
             .orderBy(sortBy, sortAs)
             .then(d =>
                 d.map(h => {
-                    const data = h.toJSON()
+                    var data = h.toJSON()
                     return {
                         ...data,
-                        name: h.$extras.name,
+                        customername: h.$extras.name,
+                        address : h.$extras.address
                     }
                 })
             )
-        return a
+        return sort
     }
 }
 
