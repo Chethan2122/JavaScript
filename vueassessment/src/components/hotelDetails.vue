@@ -39,12 +39,12 @@
                 <thead>
                     <tr>
                         <th>hotel Id
-                          
-                                <v-icon @click="sort('hotelid','asc')" small>mdi-arrow-down</v-icon>
-                          
-                          
-                                <v-icon @click="sort('hotelid','desc')" small>mdi-arrow-up</v-icon>
-                         
+
+                            <v-icon @click="sort('hotelid','asc')" small>mdi-arrow-down</v-icon>
+
+
+                            <v-icon @click="sort('hotelid','desc')" small>mdi-arrow-up</v-icon>
+
                         </th>
                         <th>customer Id
                             <v-icon @click="sort('customerid','asc')" small>mdi-arrow-down</v-icon>
@@ -54,20 +54,20 @@
 
                         </th>
                         <th>hotel name
-                          
-                                <v-icon @click="sort('hotelname','asc')" small>mdi-arrow-down</v-icon>
-                        
-                         
-                                <v-icon  @click="sort('hotelname','asc')" small>mdi-arrow-up</v-icon>
-                        
+
+                            <v-icon @click="sort('hotelname','asc')" small>mdi-arrow-down</v-icon>
+
+
+                            <v-icon @click="sort('hotelname','desc')" small>mdi-arrow-up</v-icon>
+
                         </th>
                         <th>customer name
-                          
-                                <v-icon @click="sort('name','asc')" small>mdi-arrow-down</v-icon>
-                          
-                          
-                                <v-icon @click="sort('name','desc')" small>mdi-arrow-up</v-icon>
-                         
+
+                            <v-icon @click="sort('name','asc')" small>mdi-arrow-down</v-icon>
+
+
+                            <v-icon @click="sort('name','desc')" small>mdi-arrow-up</v-icon>
+
                         </th>
                         <th>address</th>
                         <th>edit/delete</th>
@@ -77,8 +77,10 @@
                     <td>{{item.hotelid}}</td>
                     <td>{{item.customerid}}</td>
                     <td>{{item.hotelname}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.doorno + ", " + item.street + ", " +item.landmark + ", " + item.area}}</td>
+                    <td>{{item.customername}}</td>
+                    <td>{{"D.no:"+item.address.doorno + ", " + item.address.street + ", " +item.address.landmark + ", "
+                    +
+                    item.address.area}}</td>
                     <td>
                         <v-btn @click="edit(item)" color="transparent" fab small elevation="0">
                             <v-icon small color="green">mdi-pencil</v-icon>
@@ -100,6 +102,11 @@ export default {
 
     data() {
         return {
+            middleware: {
+                headers: {
+                    appKey:'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
+                }
+            },
             hotelAddress: [],
             editform: {},
             input: {
@@ -111,18 +118,17 @@ export default {
                 landmark: '',
                 area: ''
             },
-            address: {},
             change: true,
             hotel: [],
             formDialog: false,
             val: '',
-            link: 'http://127.0.0.1:3333/hotel/search'
+            link: 'http://127.0.0.1:3333/hotel/search',
+
 
         }
     },
     mounted() {
         this.read()
-
     },
     methods: {
         openform() {
@@ -130,14 +136,11 @@ export default {
             this.resetform()
         },
         read() {
-            Vue.axios.get('http://127.0.0.1:3333/hotel/join/')
+            Vue.axios.get('http://127.0.0.1:3333/hotel/address/', this.middleware)
                 .then((res) => {
                     this.hotel = (res.data)
                     console.log(res)
                 })
-            axios.get(`http://127.0.0.1:3333/hotel/address`).then(res => {
-                this.hotelAddress = res.data
-            })
         },
         addItem() {
             console.log('post'),
@@ -150,7 +153,8 @@ export default {
                         street: this.input.street,
                         landmark: this.input.landmark,
                         area: this.input.area
-                    })
+                    },
+                    this.middleware)
             this.formDialog = false
             this.read()
             this.resetform()
@@ -158,24 +162,30 @@ export default {
 
         },
         remove(hotelid) {
-            Vue.axios.delete(`http://127.0.0.1:3333/hotel/delete/${hotelid}`)
+            Vue.axios.delete(`http://127.0.0.1:3333/hotel/delete/${hotelid}`, this.middleware)
             this.read()
         },
         edit(item) {
             this.change = false
             this.formDialog = true
             this.editform = item
-            this.input = item
+            this.input.hotelid = item.hotelid
+            this.input.customerid = item.customerid
+            this.input.hotelname = item.hotelname
+            this.input.doorno = item.address.doorno
+            this.input.street = item.address.street
+            this.input.landmark = item.address.landmark
+            this.input.area = item.address.area
         },
         editItem() {
             let test = this.hotel.findIndex(temp => temp.id == this.editform.id)
             this.hotel[test].hotelid = this.input.hotelid
             this.hotel[test].customerid = this.input.customerid
             this.hotel[test].hotelname = this.input.hotelname
-            this.hotel[test].doorno = this.input.doorno
-            this.hotel[test].street = this.input.street
-            this.hotel[test].landmark = this.input.landmark
-            this.hotel[test].area = this.input.area
+            this.hotel[test].doorno = this.input.address.doorno
+            this.hotel[test].street = this.input.address.street
+            this.hotel[test].landmark = this.input.address.landmark
+            this.hotel[test].area = this.input.address.area
             this.formDialog = false
             this.change = true
             Vue.axios.patch('http://127.0.0.1:3333/hotel/update/', {
@@ -187,7 +197,8 @@ export default {
                 landmark: this.input.landmark,
                 area: this.input.area
 
-            })
+            },
+                this.middleware)
             this.read()
             this.resetform()
             this.$refs.forms.reset()
@@ -209,67 +220,13 @@ export default {
                 sortBy: sortBy,
                 ascDesc: ascDesc
             }
-            Vue.axios.post('http://127.0.0.1:3333/hotel/sortBy', val)
+            Vue.axios.post('http://127.0.0.1:3333/hotel/sortBy', val, this.middleware)
                 .then((res) => {
                     this.hotel = (res.data)
                     console.log(res)
 
                 })
         }
-            // hIdAsc() {
-            //     Vue.axios.get('http://127.0.0.1:3333/hotel/hiddesc/')
-            //         .then((res) => {
-            //             this.hotel = (res.data)
-            //             console.log(res)
-            //             this.hidasc = false
-
-            //         })
-            // },
-            // hIdDesc() {
-            //     Vue.axios.get('http://127.0.0.1:3333/hotel/hidasc/')
-            //         .then((res) => {
-            //             this.hotel = (res.data)
-            //             console.log(res)
-            //             this.hidasc = true
-
-            //         })
-            // },
-            // cIdAsc() {
-            //     Vue.axios.get('http://127.0.0.1:3333/hotel/ciddesc/')
-            //         .then((res) => {
-            //             this.hotel = (res.data)
-            //             console.log(res)
-            //             this.cidasc = false
-
-            //         })
-            // },
-            // cIdDesc() {
-            //     Vue.axios.get('http://127.0.0.1:3333/hotel/cidasc/')
-            //         .then((res) => {
-            //             this.hotel = (res.data)
-            //             console.log(res)
-            //             this.cidasc = true
-
-            //         })
-            // },
-            // nameAsc() {
-            //     Vue.axios.get('http://127.0.0.1:3333/hotel/namedesc/')
-            //         .then((res) => {
-            //             this.hotel = (res.data)
-            //             console.log(res)
-            //             this.nameasc = false
-
-            //         })
-            // },
-            // nameDesc() {
-            //     Vue.axios.get('http://127.0.0.1:3333/hotel/nameasc/')
-            //         .then((res) => {
-            //             this.hotel = (res.data)
-            //             console.log(res)
-            //             this.nameasc = true
-
-            //         })
-        //}
     }
 }
 

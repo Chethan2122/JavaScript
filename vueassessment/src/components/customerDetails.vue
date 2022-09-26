@@ -97,16 +97,17 @@ export default {
             count: [],
             formDialog: false,
             val: '',
-            link: 'http://127.0.0.1:3333/customer/search'
+            link: 'http://127.0.0.1:3333/customer/search',
+            middleware: {
+                headers: {
+                    appKey:'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
+                }
+            },
 
         }
     },
     mounted() {
-        Vue.axios.get('http://127.0.0.1:3333/customer/count')
-            .then((res) => {
-                this.customer = (res.data)
-                console.log(res)
-            })
+        this.read()
     },
     methods: {
         openform() {
@@ -114,7 +115,7 @@ export default {
             this.resetform()
         },
         read() {
-            Vue.axios.get('http://127.0.0.1:3333/customer/count/')
+            Vue.axios.get('http://127.0.0.1:3333/customer/count/',this.middleware)
                 .then((res) => {
                     this.customer = (res.data)
                     console.log(res)
@@ -127,7 +128,8 @@ export default {
                     {
                         id: this.input.id,
                         name: this.input.name
-                    })
+                    },
+                    this.middleware)
             this.formDialog = false
             this.read()
             this.resetform()
@@ -135,26 +137,25 @@ export default {
 
         },
         remove(id) {
-            Vue.axios.delete(`http://127.0.0.1:3333/customer/delete/${id}`)
+            Vue.axios.delete(`http://127.0.0.1:3333/customer/delete/${id}`,this.middleware)
             this.read()
         },
         edit(item) {
             this.change = false
             this.formDialog = true
             this.editform = item
-            this.input.id = item.id
-            this.input.name = item.name
+            this.input = item
         },
         editItem() {
             let test = this.customer.findIndex(temp => temp.id == this.editform.id)
-            this.customer[test].id = this.input.id
-            this.customer[test].name = this.input.name
+            this.customer[test].input = this.item
             this.formDialog = false
             this.change = true
             Vue.axios.patch('http://127.0.0.1:3333/customer/update/', {
                 id: this.input.id,
                 name: this.input.name
-            })
+            },
+            this.middleware)
             this.read()
             this.resetform()
             this.$refs.forms.reset()
@@ -178,49 +179,13 @@ export default {
                 sortBy: sortBy,
                 ascDesc: ascDesc
             }
-            Vue.axios.post('http://127.0.0.1:3333/customer/sortBy', val)
+            Vue.axios.post('http://127.0.0.1:3333/customer/sortBy', val,this.middleware)
                 .then((res) => {
                     this.customer = (res.data)
                     console.log(res)
 
                 })
         },
-        // idAsc() {
-        //     Vue.axios.get('http://127.0.0.1:3333/customer/iddesc/')
-        //         .then((res) => {
-        //             this.customer = (res.data)
-        //             console.log(res)
-        //             this.idasc = false
-
-        //         })
-        // },
-        // idDesc() {
-        //     Vue.axios.get('http://127.0.0.1:3333/customer/idasc/')
-        //         .then((res) => {
-        //             this.customer = (res.data)
-        //             console.log(res)
-        //             this.idasc = true
-
-        //         })
-        // },
-        // nameAsc() {
-        //     Vue.axios.get('http://127.0.0.1:3333/customer/namedesc/')
-        //         .then((res) => {
-        //             this.customer = (res.data)
-        //             console.log(res)
-        //             this.nameasc = false
-
-        //         })
-        // },
-        // nameDesc() {
-        //     Vue.axios.get('http://127.0.0.1:3333/customer/nameasc/')
-        //         .then((res) => {
-        //             this.customer = (res.data)
-        //             console.log(res)
-        //             this.nameasc = true
-
-        //         })
-        // }
     }
 }
 
