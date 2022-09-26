@@ -39,35 +39,36 @@
                 <thead>
                     <tr>
                         <th>hotel Id
-
-                            <v-icon @click="sort('hotelid','asc')" small>mdi-arrow-down</v-icon>
-
-
-                            <v-icon @click="sort('hotelid','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="!asc" @click="sort('hotelid','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('hotelid','desc')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>customer Id
-                            <v-icon @click="sort('customerid','asc')" small>mdi-arrow-down</v-icon>
-
-
-                            <v-icon @click="sort('customerid','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="!asc" @click="sort('customerid','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('customerid','desc')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>hotel name
-
-                            <v-icon @click="sort('hotelname','asc')" small>mdi-arrow-down</v-icon>
-
-
-                            <v-icon @click="sort('hotelname','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="!asc" @click="sort('hotelname','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('hotelname','desc')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>customer name
-
-                            <v-icon @click="sort('name','asc')" small>mdi-arrow-down</v-icon>
-
-
-                            <v-icon @click="sort('name','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="!asc" @click="sort('name','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('name','desc')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>address</th>
                         <th>edit/delete</th>
@@ -104,7 +105,7 @@ export default {
         return {
             middleware: {
                 headers: {
-                    appKey:'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
+                    appKey: 'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
                 }
             },
             hotelAddress: [],
@@ -116,7 +117,8 @@ export default {
                 doorno: '',
                 street: '',
                 landmark: '',
-                area: ''
+                area: '',
+                asc: false
             },
             change: true,
             hotel: [],
@@ -214,6 +216,7 @@ export default {
         },
         searchElement(value) {
             this.hotel = value.data
+            console.log(value.data)
         },
         sort(sortBy, ascDesc) {
             const val = {
@@ -226,6 +229,10 @@ export default {
                     console.log(res)
 
                 })
+            if (ascDesc == "asc") {
+                this.asc = true
+            }
+            else this.asc = false
         }
     }
 }

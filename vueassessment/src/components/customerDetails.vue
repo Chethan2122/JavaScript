@@ -35,27 +35,28 @@
                 <thead>
                     <tr>
                         <th>id
-
-                            <v-icon @click="sort('id','asc')" small>mdi-arrow-down</v-icon>
-
-                            <v-icon @click="sort('id','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="asc" @click="sort('id','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('id','desc')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>name
-
-                            <v-icon @click="sort('name','asc')" small>mdi-arrow-down</v-icon>
-
-
-                            <v-icon @click="sort('name','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="asc" @click="sort('name','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('name','desc')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>Hotels Owned
-
-                            <v-icon @click="sort('totalhotels','asc')" small>mdi-arrow-down</v-icon>
-
-
-                            <v-icon @click="sort('totalhotels','desc')" small>mdi-arrow-up</v-icon>
-
+                            <button v-if="asc" @click="sort('totalhotels','asc')">
+                                <v-icon small>mdi-arrow-up</v-icon>
+                            </button>
+                            <button v-else @click="sort('id','totalhotels')">
+                                <v-icon small>mdi-arrow-down</v-icon>
+                            </button>
                         </th>
                         <th>edit/delete</th>
                     </tr>
@@ -97,10 +98,11 @@ export default {
             count: [],
             formDialog: false,
             val: '',
+            asc: false,
             link: 'http://127.0.0.1:3333/customer/search',
             middleware: {
                 headers: {
-                    appKey:'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
+                    appKey: 'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
                 }
             },
 
@@ -115,7 +117,7 @@ export default {
             this.resetform()
         },
         read() {
-            Vue.axios.get('http://127.0.0.1:3333/customer/count/',this.middleware)
+            Vue.axios.get('http://127.0.0.1:3333/customer/count/', this.middleware)
                 .then((res) => {
                     this.customer = (res.data)
                     console.log(res)
@@ -137,7 +139,7 @@ export default {
 
         },
         remove(id) {
-            Vue.axios.delete(`http://127.0.0.1:3333/customer/delete/${id}`,this.middleware)
+            Vue.axios.delete(`http://127.0.0.1:3333/customer/delete/${id}`, this.middleware)
             this.read()
         },
         edit(item) {
@@ -155,7 +157,7 @@ export default {
                 id: this.input.id,
                 name: this.input.name
             },
-            this.middleware)
+                this.middleware)
             this.read()
             this.resetform()
             this.$refs.forms.reset()
@@ -179,12 +181,16 @@ export default {
                 sortBy: sortBy,
                 ascDesc: ascDesc
             }
-            Vue.axios.post('http://127.0.0.1:3333/customer/sortBy', val,this.middleware)
+            Vue.axios.post('http://127.0.0.1:3333/customer/sortBy', val, this.middleware)
                 .then((res) => {
                     this.customer = (res.data)
                     console.log(res)
 
                 })
+            if (ascDesc == "asc") {
+                this.asc = false
+            }
+            else this.asc = true
         },
     }
 }
