@@ -57,8 +57,10 @@ export default class CustomersController {
             var val = request.input('val')
             var search = await Hotel.query()
                 .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-                .select('hotels.*')
-                .select('customers.name')
+                .select('hotels.hotelid', 'hotels.customerid', 'hotels.hotelname', 'customers.name')
+                .select(Database.raw(`json_build_object('doorno', doorno, 'street',street,'landmark',landmark,'area',area) as address`))
+                // .select('hotels.*')
+                // .select('customers.name')
                 .where((query) => {
                     if (/^[0-9]/.test(val)) {
                         query
@@ -75,12 +77,13 @@ export default class CustomersController {
                         .orWhere('area', 'ilike', '%' + val + '%')
                         .orWhere('name', 'ilike', '%' + val + '%')
                 })
-                .then(d =>
-                    d.map(h => {
+                .then(table =>
+                    table.map(h => {
                         var data = h.toJSON()
                         return {
                             ...data,
-                            customername: h.$extras.name
+                            customername: h.$extras.name,
+                            address: h.$extras.address
                         }
                     })
                 )
@@ -96,8 +99,8 @@ export default class CustomersController {
             .select('hotels.*')
             .select('customers.name')
             .orderBy('hotels.hotelid', 'asc')
-            .then(d =>
-                d.map(h => {
+            .then(table =>
+                table.map(h => {
                     var data = h.toJSON()
                     return {
                         ...data,
@@ -109,18 +112,18 @@ export default class CustomersController {
     }
     public async address() {
         var address = await Hotel.query()
-        .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-        .select('hotels.hotelid','hotels.customerid','hotels.hotelname','customers.name')
-        .select(Database.raw(`json_build_object('doorno', doorno, 'street',street,'landmark',landmark,'area',area) as address`))
-        .then(d =>
-            d.map(h =>{
-                var data =h.toJSON()
-                return {
-                    ...data,
-                    customername : h.$extras.name,
-                    address : h.$extras.address
-                }
-            }))
+            .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
+            .select('hotels.hotelid', 'hotels.customerid', 'hotels.hotelname', 'customers.name')
+            .select(Database.raw(`json_build_object('doorno', doorno, 'street',street,'landmark',landmark,'area',area) as address`))
+            .then(table =>
+                table.map(h => {
+                    var data = h.toJSON()
+                    return {
+                        ...data,
+                        customername: h.$extras.name,
+                        address: h.$extras.address
+                    }
+                }))
         return address
     }
     public async sortBy({ request }: HttpContextContract) {
@@ -128,16 +131,16 @@ export default class CustomersController {
         var sortAs = request.input('ascDesc')
         let sort = await Hotel.query()
             .leftJoin('customers', 'customers.id', '=', 'hotels.customerid')
-            .select('hotels.hotelid','hotels.customerid','hotels.hotelname','customers.name')
+            .select('hotels.hotelid', 'hotels.customerid', 'hotels.hotelname', 'customers.name')
             .select(Database.raw(`json_build_object('doorno', doorno, 'street',street,'landmark',landmark,'area',area) as address`))
             .orderBy(sortBy, sortAs)
-            .then(d =>
-                d.map(h => {
+            .then(table =>
+                table.map(h => {
                     var data = h.toJSON()
                     return {
                         ...data,
                         customername: h.$extras.name,
-                        address : h.$extras.address
+                        address: h.$extras.address
                     }
                 })
             )

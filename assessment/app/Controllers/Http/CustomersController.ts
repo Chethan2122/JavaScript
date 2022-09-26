@@ -60,8 +60,8 @@ export default class CustomersController {
                     query
                         .where('name', 'ilike', '%' + val + '%')
                 })
-                .then(d =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-                    d.map(h => {
+                .then(table =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                    table.map(h => {
                      const data = h.toJSON()
                      return {
                         ...data,
@@ -78,14 +78,14 @@ export default class CustomersController {
     public async sortBy({request}:HttpContextContract){
         var sortBy = request.input('sortBy')
         var sortAs = request.input('ascDesc')
-        var a = await Customer.query()
+        var sort = await Customer.query()
         .leftJoin('hotels','customers.id','=','hotels.customerid')
         .select('customers.*')
         .groupBy('customers.id')
         .count('hotels.customerid as totalhotels')
         .orderBy(sortBy,sortAs)
-        .then(d =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-            d.map(h => {
+        .then(table =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            table.map(h => {
              const data = h.toJSON()
              return {
                 ...data,
@@ -93,7 +93,7 @@ export default class CustomersController {
              }
            })
          )
-         return a
+         return sort
     }
     public async count(){
         let a = await Customer.query()
@@ -102,8 +102,8 @@ export default class CustomersController {
         .groupBy('customers.id')
         .count('hotels.customerid as totalhotels')
         .orderBy('customers.id','asc')
-        .then(d =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-            d.map(h => {
+        .then(table =>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+            table.map(h => {
              const data = h.toJSON()
              return {
                 ...data,
@@ -114,45 +114,3 @@ export default class CustomersController {
          return a
     }
 }
-
-
-
-
-
-
-    // public async idAsc() {
-    //     var idasc = Database
-    //     .from('customers')
-    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
-    //     .select('customers.*')
-    //     .groupBy('customers.id')
-    //     .count('hotels.customerid as totalhotels')
-    //     return idasc.orderBy('id','asc')
-    // }
-    // public async idDesc() {
-    //     var iddesc = Database
-    //     .from('customers')
-    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
-    //     .select('customers.*')
-    //     .groupBy('customers.id')
-    //     .count('hotels.customerid as totalhotels')
-    //     return iddesc.orderBy('id','desc')
-    // }
-    // public async nameAsc() {
-    //     var nameasc = Database
-    //     .from('customers')
-    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
-    //     .select('customers.*')
-    //     .groupBy('customers.id')
-    //     .count('hotels.customerid as totalhotels')
-    //     return nameasc.orderBy('name','asc')
-    // }
-    // public async nameDesc() {
-    //     var namedesc = Database
-    //     .from('customers')
-    //     .leftJoin('hotels','customers.id','=','hotels.customerid')
-    //     .select('customers.*')
-    //     .groupBy('customers.id')
-    //     .count('hotels.customerid as totalhotels')
-    //     return namedesc.orderBy('name','desc')    
-    // }
