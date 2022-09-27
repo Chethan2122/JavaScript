@@ -1,20 +1,22 @@
 <template>
-  
+
   <div>
-    <router-link to="/customerDetails">customerDetails</router-link> |
-    <router-link to="/hotelDetails">hotelDetails</router-link>
-    <router-view/>
+    <center>
+      <router-link to="/customerDetails">customerDetails</router-link> |
+      <router-link to="/hotelDetails">hotelDetails</router-link>
+      <router-view />
+    </center>
   </div>
 </template>
 
 <script>
 export default {
-name: 'App',
-components: {
+  name: 'App',
+  components: {
 
-},
-data: () => ({
-  //
-}),
+  },
+  data: () => ({
+    //
+  }),
 };
 </script>

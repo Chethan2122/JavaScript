@@ -185,10 +185,10 @@ export default {
             this.hotel[test].hotelid = this.input.hotelid
             this.hotel[test].customerid = this.input.customerid
             this.hotel[test].hotelname = this.input.hotelname
-            this.hotel[test].doorno = this.input.address.doorno
-            this.hotel[test].street = this.input.address.street
-            this.hotel[test].landmark = this.input.address.landmark
-            this.hotel[test].area = this.input.address.area
+            this.hotel[test].doorno = this.input.doorno
+            this.hotel[test].street = this.input.street
+            this.hotel[test].landmark = this.input.landmark
+            this.hotel[test].area = this.input.area
             this.formDialog = false
             this.change = true
             Vue.axios.patch('http://127.0.0.1:3333/hotel/update/', {
