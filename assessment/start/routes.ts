@@ -17,7 +17,7 @@ Route.get('nameasc', 'CustomersController.nameAsc')
 Route.get('namedesc', 'CustomersController.nameDesc')
 Route.post('sortBy', 'CustomersController.sortBy')
 Route.get('count', 'CustomersController.count')
-}).prefix('customer').middleware('middleware')
+}).prefix('customer').middleware(['middleware', 'midwar'])
 
 
 Route.group(() => {
@@ -29,4 +29,4 @@ Route.post('search', 'HotelsController.search')
 Route.get('address', 'HotelsController.address')
 Route.post('sortBy', 'HotelsController.sortBy')
 Route.get('join', 'HotelsController.join')
-}).prefix('hotel').middleware('middleware')
+}).prefix('hotel').middleware(['middleware', 'midwar'])

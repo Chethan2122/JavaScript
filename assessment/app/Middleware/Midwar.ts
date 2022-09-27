@@ -1,13 +1,12 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import {appKey} from 'Config/app'
 
-export default class Middleware {
+export default class Midwar {
   public async handle({request, response}: HttpContextContract, next: () => Promise<void>) {
-    if(appKey !== request.header('appKey'))
-    {
-      response.unauthorized({ error :'Unauthorized' })
+    let auth = 'abcd'
+    if(auth !== request.header('auth')){
+      response.unauthorized({error:'Unauthorized'})
       return
     }
     await next()
   }
-}       
+}
