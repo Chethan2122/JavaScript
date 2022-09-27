@@ -105,7 +105,8 @@ export default {
         return {
             middleware: {
                 headers: {
-                    appKey: 'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
+                    appKey: 'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9',
+                    auth:'abcd'
                 }
             },
             hotelAddress: [],

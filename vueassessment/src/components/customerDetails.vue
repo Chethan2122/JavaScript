@@ -102,7 +102,8 @@ export default {
             link: 'http://127.0.0.1:3333/customer/search',
             middleware: {
                 headers: {
-                    appKey: 'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9'
+                    appKey: 'z6-3_eb8wPfwFV8AHf9xchn21TLmA_w9',
+                    auth:'abcd'
                 }
             },
 
